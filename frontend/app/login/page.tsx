@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { getToken, setAuth } from "../lib/auth";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8765";
@@ -71,6 +72,9 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
+          <div className="flex justify-center mb-4">
+            <Image src="/logo.png" alt="Observability Copilot Logo" width={96} height={96} priority />
+          </div>
           <h1 className="text-2xl font-bold text-white">Observability Copilot</h1>
           <p className="text-slate-400 text-sm mt-1">Sign in to continue</p>
         </div>

@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { getToken } from "./lib/auth";
 import { useCopilotStore } from "./store/copilotStore";
 import { useAnalysis } from "./hooks/useAnalysis";
@@ -13,7 +14,7 @@ import { DashboardView } from "./components/views/DashboardView";
 import { AnalyticsView } from "./components/analytics/AnalyticsView";
 import { Toast } from "./components/Toast";
 import { SavePromptModal } from "./components/SavePromptModal";
-import { MenuIcon, XIcon, CogIcon, HistoryIcon, ArrowBackIcon, BarChart3Icon } from "./components/Icons";
+import { MenuIcon, XIcon, CogIcon, HistoryIcon, BarChart3Icon } from "./components/Icons";
 
 type UserFlow = {
   id: string;
@@ -96,8 +97,8 @@ export default function Home() {
       <header className="fixed top-0 w-full bg-slate-900/80 backdrop-blur-md border-b border-slate-800 z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-              <ArrowBackIcon className="w-5 h-5 text-white transform rotate-90" />
+            <div className="w-10 h-10 flex items-center justify-center">
+              <Image src="/logo.png" alt="Logo" width={40} height={40} priority />
             </div>
             <h1 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">Observability Copilot</h1>
           </div>
