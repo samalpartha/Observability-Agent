@@ -100,6 +100,78 @@ graph TB
 - **API Communication**: Fetch API with SSE streaming
 - **Charts**: Recharts (for analytics visualizations)
 
+### Frontend Architecture Diagram
+
+```mermaid
+graph TB
+    subgraph "Pages & Routing"
+        Home["Home Page<br/>(AI Copilot)"]
+        Login["Login Page<br/>(Authentication)"]
+        Connect["Connect Page<br/>(Data Sources)"]
+    end
+
+    subgraph "Core Components"
+        Copilot["AI Copilot Component<br/>(Query Input & Results)"]
+        Analytics["Analytics View<br/>(ES|QL Panel)"]
+        Dashboard["Dashboard View<br/>(Metrics Overview)"]
+    end
+
+    subgraph "Evidence Components"
+        LogViewer["Log Viewer<br/>(Syntax highlighted)"]
+        TraceWaterfall["Trace Waterfall<br/>(APM visualization)"]
+        MetricChart["Metric Chart<br/>(Time-series)"]
+    end
+
+    subgraph "UI Components"
+        ConfidenceGauge["Confidence Gauge<br/>(Score display)"]
+        Toast["Toast Notifications"]
+        LoadingSkeleton["Loading Skeleton"]
+        CommandBar["Command Bar<br/>(Quick actions)"]
+    end
+
+    subgraph "State & Hooks"
+        Store["Zustand Store<br/>(copilotStore)"]
+        useAnalysis["useAnalysis<br/>(SSE streaming)"]
+        useAPI["useObservabilityApi<br/>(API client)"]
+        useDashboard["useDashboard<br/>(Dashboard data)"]
+    end
+
+    subgraph "Backend API"
+        APIEndpoints["FastAPI Backend<br/>(/debug/stream, /esql, /dashboard)"]
+    end
+
+    Home --> Copilot
+    Home --> Analytics
+    Home --> Dashboard
+    
+    Copilot --> useAnalysis
+    Analytics --> useAPI
+    Dashboard --> useDashboard
+    
+    useAnalysis --> Store
+    useAPI --> Store
+    useDashboard --> Store
+    
+    Copilot --> LogViewer
+    Copilot --> TraceWaterfall
+    Copilot --> MetricChart
+    Copilot --> ConfidenceGauge
+    
+    Analytics --> Toast
+    Copilot --> LoadingSkeleton
+    Dashboard --> CommandBar
+    
+    useAnalysis --> APIEndpoints
+    useAPI --> APIEndpoints
+    useDashboard --> APIEndpoints
+
+    style Home fill:#667eea
+    style Copilot fill:#8b5cf6
+    style Analytics fill:#8b5cf6
+    style Store fill:#10b981
+    style APIEndpoints fill:#f59e0b
+```
+
 ### Key Components
 
 #### 1. **AI Copilot** (`app/page.tsx`)
@@ -189,6 +261,113 @@ frontend/
 - **Embeddings**: sentence-transformers
 - **LLM**: Gemini (via LiteLLM)
 - **Authentication**: JWT tokens
+
+### Backend Architecture Diagram
+
+```mermaid
+graph TB
+    subgraph "API Layer"
+        FastAPI["FastAPI Application<br/>(app/main.py)"]
+        Auth["JWT Authentication<br/>(app/auth.py)"]
+        Middleware["Middleware<br/>(CORS, Logging)"]
+    end
+
+    subgraph "Route Handlers"
+        DebugRoute["/debug<br/>(Sync Analysis)"]
+        StreamRoute["/debug/stream<br/>(SSE Streaming)"]
+        ESQLRoute["/esql<br/>(Query Execution)"]
+        IngestRoute["/ingest/*<br/>(Data Ingestion)"]
+        DashboardRoute["/dashboard/*<br/>(Metrics API)"]
+        CasesRoute["/cases<br/>(Kibana Cases)"]
+    end
+
+    subgraph "Agent Layer"
+        Planner["Deterministic Planner<br/>(agent/planner.py)"]
+        
+        subgraph "Agent Tools"
+            QueryTool["Query Tool<br/>(Hybrid search)"]
+            CorrelateTool["Correlate Tool<br/>(Evidence grouping)"]
+            AnalyzeTool["Analyze Tool<br/>(LLM integration)"]
+        end
+        
+        Validators["Validators<br/>(agent/validators.py)"]
+        Confidence["Confidence Scorer<br/>(agent/confidence.py)"]
+    end
+
+    subgraph "Retrieval Layer"
+        Embedder["Embedder<br/>(sentence-transformers)"]
+        HybridQuery["Hybrid Query<br/>(Lexical + Vector)"]
+        RRF["RRF Fusion<br/>(Rank merging)"]
+        Reranker["Reranker<br/>(Relevance scoring)"]
+        SimilarIncidents["Similar Incidents<br/>(Vector search)"]
+    end
+
+    subgraph "Elasticsearch Layer"
+        ESClient["ES Client<br/>(elastic/client.py)"]
+        
+        subgraph "Indices"
+            LogsIndex["obs-logs-current"]
+            TracesIndex["obs-traces-current"]
+            MetricsIndex["obs-metrics-current"]
+            IncidentsIndex["obs-incidents-current"]
+        end
+    end
+
+    subgraph "External Services"
+        Gemini["Gemini LLM<br/>(via LiteLLM)"]
+        Kibana["Kibana API<br/>(Cases, Deep Links)"]
+    end
+
+    FastAPI --> Auth
+    FastAPI --> Middleware
+    FastAPI --> DebugRoute
+    FastAPI --> StreamRoute
+    FastAPI --> ESQLRoute
+    FastAPI --> IngestRoute
+    FastAPI --> DashboardRoute
+    FastAPI --> CasesRoute
+
+    DebugRoute --> Planner
+    StreamRoute --> Planner
+    ESQLRoute --> ESClient
+    IngestRoute --> ESClient
+    DashboardRoute --> ESClient
+    CasesRoute --> Kibana
+
+    Planner --> QueryTool
+    Planner --> CorrelateTool
+    Planner --> AnalyzeTool
+    Planner --> Validators
+    Planner --> Confidence
+
+    QueryTool --> HybridQuery
+    CorrelateTool --> HybridQuery
+    AnalyzeTool --> Gemini
+
+    HybridQuery --> Embedder
+    HybridQuery --> RRF
+    RRF --> Reranker
+    
+    QueryTool --> SimilarIncidents
+    SimilarIncidents --> Embedder
+
+    Embedder --> ESClient
+    Reranker --> ESClient
+    
+    ESClient --> LogsIndex
+    ESClient --> TracesIndex
+    ESClient --> MetricsIndex
+    ESClient --> IncidentsIndex
+
+    Confidence --> Kibana
+
+    style FastAPI fill:#f59e0b
+    style Planner fill:#10b981
+    style HybridQuery fill:#06b6d4
+    style ESClient fill:#06b6d4
+    style Gemini fill:#ec4899
+    style Kibana fill:#ec4899
+```
 
 ### API Routes
 
