@@ -1,0 +1,34 @@
+{
+  "actions": [
+    {
+      "id": "rollback",
+      "label": "Rollback last deployment",
+      "risk_level": "high",
+      "conditions": ["deploy_in_time_range", "symptoms_after_deploy"]
+    },
+    {
+      "id": "scale_up",
+      "label": "Scale up replicas / resources",
+      "risk_level": "medium",
+      "conditions": ["high_cpu_or_memory", "latency_spike"]
+    },
+    {
+      "id": "restart_pods",
+      "label": "Restart affected pods",
+      "risk_level": "medium",
+      "conditions": ["oom_or_crash_loop"]
+    },
+    {
+      "id": "toggle_feature_flag",
+      "label": "Disable feature flag",
+      "risk_level": "low",
+      "conditions": ["feature_flag_in_scope"]
+    },
+    {
+      "id": "gather_more_evidence",
+      "label": "Gather more evidence",
+      "risk_level": "low",
+      "conditions": ["low_evidence_count"]
+    }
+  ]
+}

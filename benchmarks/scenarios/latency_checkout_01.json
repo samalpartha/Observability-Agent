@@ -1,0 +1,13 @@
+{
+  "id": "latency_checkout_01",
+  "name": "Checkout latency spike",
+  "family": "root_cause",
+  "question": "Why is checkout slow?",
+  "service": "checkout-service",
+  "env": "prod",
+  "time_preset": "1h",
+  "expected_root_cause_keywords": ["latency", "slow", "connection", "pool", "timeout", "database", "deployment", "evidence", "insufficient"],
+  "expected_evidence_min_count": 0,
+  "required_remediation_min_count": 1,
+  "min_confidence": 0.0
+}

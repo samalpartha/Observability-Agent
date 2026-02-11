@@ -1,0 +1,13 @@
+{
+  "id": "errors_payment_01",
+  "name": "Payment service errors",
+  "family": "evidence",
+  "question": "What caused the errors in payment-service in the last hour?",
+  "service": "payment-service",
+  "env": "prod",
+  "time_preset": "1h",
+  "expected_root_cause_keywords": [],
+  "expected_evidence_min_count": 0,
+  "required_remediation_min_count": 0,
+  "min_confidence": 0.0
+}

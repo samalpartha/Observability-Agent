@@ -1,0 +1,50 @@
+# Agentic Observability Copilot — one-command deployment
+# Usage: docker-compose up --build
+# Prerequisites: .env file with Elastic credentials + LLM keys
+
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: copilot-backend
+    ports:
+      - "8765:8765"
+    env_file:
+      - .env
+    environment:
+      - MAX_LOGIN_ATTEMPTS=20
+      - CORS_ORIGINS=http://localhost:3000,http://localhost:3001
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8765/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped
+    networks:
+      - copilot
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8765
+    container_name: copilot-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8765
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - copilot
+
+networks:
+  copilot:
+    driver: bridge

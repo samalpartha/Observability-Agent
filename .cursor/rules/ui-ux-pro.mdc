@@ -1,0 +1,48 @@
+---
+description: Use UI/UX Pro Max skill and design system for all frontend UI/UX work
+globs: frontend/**/*.tsx,frontend/**/*.css,frontend/**/*.ts
+alwaysApply: false
+---
+
+# UI/UX Pro Max — Frontend Standards
+
+Use the **UI/UX Pro Max** skill for any UI/UX work (build, design, implement, review, fix, improve) in the frontend.
+
+## 1. Skill location
+
+- **Skill:** `.cursor/skills/ui-ux-pro-max/SKILL.md`
+- **Design system:** `design-system/copilot-observability/MASTER.md`
+- **Page overrides:** `design-system/copilot-observability/pages/[page-name].md` (if present, overrides MASTER)
+
+Before implementing or changing UI, read the skill and the design system (and any page override for the screen you’re building).
+
+## 2. Workflow
+
+1. **Design system first** — For new pages or big changes, generate or refresh the design system:
+   ```bash
+   python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "<product/industry/keywords>" --design-system -p "Copilot Observability" [-f markdown] [--persist]
+   ```
+2. **Stack** — This app is **Next.js + Tailwind**. Use Next.js and Tailwind patterns; optionally pull stack guidelines:
+   ```bash
+   python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "<keyword>" --stack nextjs
+   ```
+3. **Implement** — Use colors, typography, spacing, and components from `design-system/copilot-observability/MASTER.md` (primary `#6366F1`, CTA `#10B981`, Fira Code/Sans, etc.).
+
+## 3. Pre-delivery checklist (from skill)
+
+- No emojis as icons (use SVG: Heroicons/Lucide)
+- `cursor-pointer` on all clickable elements
+- Hover states with smooth transitions (150–300ms)
+- Light mode text contrast ≥ 4.5:1
+- Focus states visible for keyboard nav
+- Respect `prefers-reduced-motion`
+- Responsive at 375px, 768px, 1024px, 1440px
+- No content hidden behind fixed navbars; no horizontal scroll on mobile
+
+## 4. Anti-patterns to avoid
+
+- Emojis as UI icons
+- Missing hover/feedback on interactive elements
+- Layout-shifting hovers (e.g. scale that shifts layout)
+- Low-contrast body text in light mode
+- Invisible focus states

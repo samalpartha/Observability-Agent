@@ -1,0 +1,53 @@
+# Environment and secrets – store all API keys in .env only (never commit)
+.env
+.env*
+!.env.example
+.env.local
+.env.*.local
+*.pem
+*.key
+credentials.json
+secrets.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+
+# Cursor MCP config (may contain API keys)
+.cursor/mcp.json
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Tests / coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Blog (Blogathon submission – keep local only)
+blog/
+
+# Frontend build artifacts
+frontend/.next/
+frontend/node_modules/
+frontend/out/
+frontend/.turbo/
+
+# Test results and artifacts  
+frontend/test-results/
+frontend/playwright-report/
+frontend/playwright/.cache/
+*.webm

@@ -1,0 +1,26 @@
+URL: https://my-elasticsearch-project-c5ba52.es.us-central1.gcp.elastic.cloud:443
+API_KEY: VENXN...
+/usr/local/lib/python3.12/site-packages/elasticsearch/_sync/client/__init__.py:313: SecurityWarning: Connecting to 'https://my-elasticsearch-project-c5ba52.es.us-central1.gcp.elastic.cloud:443' using TLS with verify_certs=False is insecure
+  _transport = transport_class(
+Connecting to https://my-elasticsearch-project-c5ba52.es.us-central1.gcp.elastic.cloud:443...
+/usr/local/lib/python3.12/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'my-elasticsearch-project-c5ba52.es.us-central1.gcp.elastic.cloud'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+Connected to ES version: 8.11.0
+/usr/local/lib/python3.12/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'my-elasticsearch-project-c5ba52.es.us-central1.gcp.elastic.cloud'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+Found 5 indices:
+/usr/local/lib/python3.12/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'my-elasticsearch-project-c5ba52.es.us-central1.gcp.elastic.cloud'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+  - obs-logs-v1: 0 docs
+/usr/local/lib/python3.12/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'my-elasticsearch-project-c5ba52.es.us-central1.gcp.elastic.cloud'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+  - obs-traces-v1: 0 docs
+/usr/local/lib/python3.12/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'my-elasticsearch-project-c5ba52.es.us-central1.gcp.elastic.cloud'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+  - obs-closures-v1: 9 docs
+/usr/local/lib/python3.12/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'my-elasticsearch-project-c5ba52.es.us-central1.gcp.elastic.cloud'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+  - obs-incidents-v1: 0 docs
+/usr/local/lib/python3.12/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host 'my-elasticsearch-project-c5ba52.es.us-central1.gcp.elastic.cloud'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+  - obs-metrics-v1: 0 docs

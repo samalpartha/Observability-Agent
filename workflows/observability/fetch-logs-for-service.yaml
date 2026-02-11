@@ -1,0 +1,47 @@
+# =============================================================================
+# Workflow: Fetch logs for service (Observability)
+# Category: observability
+#
+# Fetches recent log documents for a given service and time window from
+# obs-logs-current. Import in Kibana: Management → Workflows → Create workflow.
+# See: https://github.com/elastic/workflows and docs/HACKATHON_STRATEGY.md
+# =============================================================================
+
+name: Fetch logs for service
+
+description: >
+  Retrieves log entries for a service within a time range. Use as a building
+  block for observability automation (e.g. triggered by alerts or Agent Builder).
+
+# INPUTS - Parameters provided at runtime
+inputs:
+  - name: service_name
+    type: string
+    required: true
+    description: Service name to filter (e.g. payment-service)
+  - name: start_time
+    type: string
+    required: false
+    description: Start of time range (ISO 8601). Defaults to 1 hour ago.
+  - name: limit
+    type: integer
+    required: false
+    description: Max number of log documents to return
+    default: 50
+
+# TRIGGERS - Manual for demo; can be switched to scheduled or alert
+triggers:
+  - type: manual
+
+# STEPS - ES|QL query over observability logs
+steps:
+  - name: fetch_logs
+    type: elasticsearch.esql.query
+    with:
+      format: json
+      query: |
+        FROM obs-logs-current
+        | WHERE service.name == "{{ inputs.service_name }}"
+        | WHERE @timestamp >= "{{ inputs.start_time | default: 'now-1h' }}"
+        | SORT @timestamp DESC
+        | LIMIT {{ inputs.limit | default: 50 }}

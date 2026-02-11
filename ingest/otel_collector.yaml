@@ -1,0 +1,38 @@
+# OpenTelemetry Collector config for forwarding to Elastic
+# Use with OTEL exporter to Elasticsearch or via Elastic Agent.
+
+receivers:
+  otlp:
+    protocols:
+      grpc: 0.0.0.0:4317
+      http: 0.0.0.0:4318
+
+processors:
+  batch:
+    timeout: 5s
+    send_batch_size: 1024
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 512
+
+exporters:
+  # Example: Elastic APM / Logs; replace with your Elastic endpoint and API key via env
+  elasticsearch/logs:
+    endpoints: [ "${ELASTIC_URL}" ]
+    api_key: "${ELASTIC_API_KEY}"
+    logs_index: "obs-logs-current"
+  elasticsearch/traces:
+    endpoints: [ "${ELASTIC_URL}" ]
+    api_key: "${ELASTIC_API_KEY}"
+    traces_index: "obs-traces-current"
+
+service:
+  pipelines:
+    logs:
+      receivers: [ otlp ]
+      processors: [ memory_limiter, batch ]
+      exporters: [ elasticsearch/logs ]
+    traces:
+      receivers: [ otlp ]
+      processors: [ memory_limiter, batch ]
+      exporters: [ elasticsearch/traces ]

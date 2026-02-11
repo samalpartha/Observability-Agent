@@ -1,0 +1,14 @@
+__pycache__
+*.pyc
+.git
+.env.local
+node_modules
+.next
+frontend/node_modules
+frontend/.next
+frontend/test-results
+frontend/playwright-report
+tests/
+*.md
+.cursor/
+.venv/

@@ -1,0 +1,770 @@
+INFO:     Will watch for changes in these directories: ['/Users/psama0214/Hackathon-New/ObservabilityAgent']
+INFO:     Uvicorn running on http://127.0.0.1:8765 (Press CTRL+C to quit)
+INFO:     Started reloader process [1504] using WatchFiles
+INFO:     Started server process [1644]
+INFO:     Waiting for application startup.
+2026-02-09T21:02:57 [INFO] observability_copilot.build_client: Elasticsearch client created for https://my-elasticsearch-project-c5ba52.es.us-central1.gcp.elastic.cloud:443
+2026-02-09T21:02:58 [INFO] observability_copilot.load_closures_from_es: Loaded 9 closures from Elasticsearch
+INFO:     Application startup complete.
+2026-02-09T21:03:38 [INFO] observability_copilot.dispatch: [fd95b356-8ba] OPTIONS /metrics/summary → 200 in 1.2ms
+INFO:     127.0.0.1:54383 - "OPTIONS /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:03:38 [INFO] observability_copilot.dispatch: [b4586630-8ea] OPTIONS /sources → 200 in 1.2ms
+INFO:     127.0.0.1:54384 - "OPTIONS /sources HTTP/1.1" 200 OK
+2026-02-09T21:03:38 [INFO] observability_copilot.dispatch: [afd568b8-bde] OPTIONS /scope → 200 in 1.2ms
+INFO:     127.0.0.1:54385 - "OPTIONS /scope HTTP/1.1" 200 OK
+2026-02-09T21:03:38 [INFO] observability_copilot.dispatch: [571dfb4b-f6d] GET /sources → 200 in 407.9ms
+INFO:     127.0.0.1:54386 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:03:38 [INFO] observability_copilot.dispatch: [e1d5a8ec-e44] GET /scope → 200 in 688.5ms
+INFO:     127.0.0.1:54384 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:03:38 [INFO] observability_copilot.dispatch: [0d5e4747-32d] GET /metrics/summary → 200 in 688.7ms
+INFO:     127.0.0.1:54383 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:04:38 [INFO] observability_copilot.dispatch: [3d2f499c-4b1] GET /sources → 200 in 437.0ms
+INFO:     127.0.0.1:54657 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:04:38 [INFO] observability_copilot.dispatch: [d5f287ff-968] GET /scope → 200 in 605.3ms
+INFO:     127.0.0.1:54658 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:04:38 [INFO] observability_copilot.dispatch: [1e74d8e8-af6] GET /metrics/summary → 200 in 606.7ms
+INFO:     127.0.0.1:54656 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:05:38 [INFO] observability_copilot.dispatch: [6902ddc0-bb1] GET /sources → 200 in 364.9ms
+INFO:     127.0.0.1:54921 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:05:38 [INFO] observability_copilot.dispatch: [e096b6d5-fd7] GET /metrics/summary → 200 in 435.4ms
+INFO:     127.0.0.1:54920 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:05:38 [INFO] observability_copilot.dispatch: [a145318f-f7f] GET /scope → 200 in 435.9ms
+INFO:     127.0.0.1:54922 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:06:38 [INFO] observability_copilot.dispatch: [07af250b-07e] GET /sources → 200 in 303.6ms
+INFO:     127.0.0.1:55222 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:06:38 [INFO] observability_copilot.dispatch: [898a75f4-22c] GET /scope → 200 in 359.1ms
+INFO:     127.0.0.1:55223 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:06:38 [INFO] observability_copilot.dispatch: [5e8d74de-f03] GET /metrics/summary → 200 in 364.2ms
+INFO:     127.0.0.1:55221 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:07:38 [INFO] observability_copilot.dispatch: [ee7cda25-27b] GET /sources → 200 in 331.6ms
+INFO:     127.0.0.1:55521 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:07:38 [INFO] observability_copilot.dispatch: [2a27ece3-d09] GET /scope → 200 in 389.6ms
+INFO:     127.0.0.1:55522 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:07:38 [INFO] observability_copilot.dispatch: [8f7e6394-7a2] GET /metrics/summary → 200 in 394.9ms
+INFO:     127.0.0.1:55520 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:08:38 [INFO] observability_copilot.dispatch: [b88d28fe-5dc] GET /sources → 200 in 388.4ms
+INFO:     127.0.0.1:55809 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:08:38 [INFO] observability_copilot.dispatch: [079cf24e-051] GET /scope → 200 in 438.4ms
+INFO:     127.0.0.1:55810 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:08:38 [INFO] observability_copilot.dispatch: [eb41bb31-c16] GET /metrics/summary → 200 in 446.3ms
+INFO:     127.0.0.1:55808 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:09:38 [INFO] observability_copilot.dispatch: [b66a55ec-ffd] GET /sources → 200 in 348.9ms
+INFO:     127.0.0.1:56067 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:09:38 [INFO] observability_copilot.dispatch: [13083771-c38] GET /scope → 200 in 408.1ms
+INFO:     127.0.0.1:56068 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:09:38 [INFO] observability_copilot.dispatch: [f1f2f4f2-3ef] GET /metrics/summary → 200 in 409.8ms
+INFO:     127.0.0.1:56066 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:10:38 [INFO] observability_copilot.dispatch: [3201ce56-32d] GET /sources → 200 in 355.6ms
+INFO:     127.0.0.1:56344 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:10:38 [INFO] observability_copilot.dispatch: [770d0c11-24b] GET /scope → 200 in 427.7ms
+INFO:     127.0.0.1:56345 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:10:38 [INFO] observability_copilot.dispatch: [887c178e-b3d] GET /metrics/summary → 200 in 432.4ms
+INFO:     127.0.0.1:56343 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:11:38 [INFO] observability_copilot.dispatch: [ed2e2d3f-ff4] GET /sources → 200 in 395.4ms
+INFO:     127.0.0.1:56633 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:11:38 [INFO] observability_copilot.dispatch: [0d5bf61d-e1e] GET /metrics/summary → 200 in 460.0ms
+INFO:     127.0.0.1:56632 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:11:38 [INFO] observability_copilot.dispatch: [807b7323-b55] GET /scope → 200 in 454.5ms
+INFO:     127.0.0.1:56634 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:12:38 [INFO] observability_copilot.dispatch: [ac5b1f8f-a58] GET /sources → 200 in 366.4ms
+INFO:     127.0.0.1:56926 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:12:38 [INFO] observability_copilot.dispatch: [33be5456-da1] GET /scope → 200 in 430.6ms
+INFO:     127.0.0.1:56927 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:12:38 [INFO] observability_copilot.dispatch: [8954015f-fc9] GET /metrics/summary → 200 in 435.1ms
+INFO:     127.0.0.1:56925 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:13:38 [INFO] observability_copilot.dispatch: [37e9e0aa-276] GET /sources → 200 in 312.6ms
+INFO:     127.0.0.1:57227 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:13:38 [INFO] observability_copilot.dispatch: [bd50e49e-a15] GET /scope → 200 in 372.6ms
+INFO:     127.0.0.1:57228 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:13:38 [INFO] observability_copilot.dispatch: [b3dbb3f6-19c] GET /metrics/summary → 200 in 405.3ms
+INFO:     127.0.0.1:57226 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:14:38 [INFO] observability_copilot.dispatch: [7b02340d-af8] OPTIONS /metrics/summary → 200 in 2.7ms
+INFO:     127.0.0.1:57492 - "OPTIONS /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:14:38 [INFO] observability_copilot.dispatch: [2c9592a9-3e9] OPTIONS /sources → 200 in 2.7ms
+INFO:     127.0.0.1:57493 - "OPTIONS /sources HTTP/1.1" 200 OK
+2026-02-09T21:14:38 [INFO] observability_copilot.dispatch: [04af7d73-e62] OPTIONS /scope → 200 in 2.4ms
+INFO:     127.0.0.1:57494 - "OPTIONS /scope HTTP/1.1" 200 OK
+2026-02-09T21:14:38 [INFO] observability_copilot.dispatch: [96553555-3b5] GET /sources → 200 in 314.0ms
+INFO:     127.0.0.1:57495 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:14:38 [INFO] observability_copilot.dispatch: [2f16cdb3-d8a] GET /metrics/summary → 200 in 370.5ms
+INFO:     127.0.0.1:57492 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:14:38 [INFO] observability_copilot.dispatch: [3568833b-dc8] GET /scope → 200 in 375.7ms
+INFO:     127.0.0.1:57493 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:15:38 [INFO] observability_copilot.dispatch: [a79a6bab-e89] GET /sources → 200 in 319.8ms
+INFO:     127.0.0.1:57762 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:15:38 [INFO] observability_copilot.dispatch: [ca9503ce-d8a] GET /metrics/summary → 200 in 393.2ms
+INFO:     127.0.0.1:57761 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:15:38 [INFO] observability_copilot.dispatch: [05bbdb5d-de6] GET /scope → 200 in 392.9ms
+INFO:     127.0.0.1:57763 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:16:38 [INFO] observability_copilot.dispatch: [13cf31db-d95] GET /sources → 200 in 367.5ms
+INFO:     127.0.0.1:58028 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:16:38 [INFO] observability_copilot.dispatch: [9d1482a5-fae] GET /scope → 200 in 437.1ms
+INFO:     127.0.0.1:58029 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:16:38 [INFO] observability_copilot.dispatch: [55234f4b-ab1] GET /metrics/summary → 200 in 438.1ms
+INFO:     127.0.0.1:58027 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:17:38 [INFO] observability_copilot.dispatch: [5356ed81-e08] GET /sources → 200 in 444.8ms
+INFO:     127.0.0.1:58330 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:17:38 [INFO] observability_copilot.dispatch: [0cefa7cf-d1f] GET /metrics/summary → 200 in 503.8ms
+INFO:     127.0.0.1:58329 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:17:38 [INFO] observability_copilot.dispatch: [3fc2fa5c-27a] GET /scope → 200 in 503.7ms
+INFO:     127.0.0.1:58331 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:18:38 [INFO] observability_copilot.dispatch: [21a42b01-ee9] GET /sources → 200 in 471.0ms
+INFO:     127.0.0.1:58617 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:18:38 [INFO] observability_copilot.dispatch: [5d5ae2ed-4ff] GET /metrics/summary → 200 in 536.1ms
+INFO:     127.0.0.1:58616 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:18:38 [INFO] observability_copilot.dispatch: [eb8506d5-444] GET /scope → 200 in 536.3ms
+INFO:     127.0.0.1:58618 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:19:38 [INFO] observability_copilot.dispatch: [d011980f-ba0] GET /sources → 200 in 409.5ms
+INFO:     127.0.0.1:58879 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:19:38 [INFO] observability_copilot.dispatch: [946c53dd-456] GET /scope → 200 in 464.6ms
+INFO:     127.0.0.1:58880 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:19:38 [INFO] observability_copilot.dispatch: [c3f25b19-2f9] GET /metrics/summary → 200 in 469.5ms
+INFO:     127.0.0.1:58878 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:20:38 [INFO] observability_copilot.dispatch: [54900b8e-331] GET /sources → 200 in 537.4ms
+INFO:     127.0.0.1:59138 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:20:38 [INFO] observability_copilot.dispatch: [81c33216-f2c] GET /scope → 200 in 633.7ms
+INFO:     127.0.0.1:59139 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:20:38 [INFO] observability_copilot.dispatch: [16f1064e-b36] GET /metrics/summary → 200 in 634.2ms
+INFO:     127.0.0.1:59137 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:21:39 [INFO] observability_copilot.dispatch: [7445c0c7-188] GET /sources → 200 in 1010.8ms
+INFO:     127.0.0.1:59399 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:21:39 [INFO] observability_copilot.dispatch: [b2d1f21f-5ab] GET /metrics/summary → 200 in 1089.4ms
+INFO:     127.0.0.1:59398 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:21:39 [INFO] observability_copilot.dispatch: [490f01e9-63a] GET /scope → 200 in 1180.2ms
+INFO:     127.0.0.1:59400 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:22:38 [INFO] observability_copilot.dispatch: [4ae75b8f-65a] GET /sources → 200 in 309.7ms
+INFO:     127.0.0.1:59683 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:22:38 [INFO] observability_copilot.dispatch: [3978c0e7-194] GET /metrics/summary → 200 in 366.6ms
+INFO:     127.0.0.1:59682 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:22:38 [INFO] observability_copilot.dispatch: [51e06c7c-117] GET /scope → 200 in 372.3ms
+INFO:     127.0.0.1:59684 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:23:38 [INFO] observability_copilot.dispatch: [1a247f65-a07] GET /sources → 200 in 391.5ms
+INFO:     127.0.0.1:59979 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:23:38 [INFO] observability_copilot.dispatch: [ca55674b-d34] GET /scope → 200 in 507.1ms
+INFO:     127.0.0.1:59980 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:23:38 [INFO] observability_copilot.dispatch: [6b29bb7c-341] GET /metrics/summary → 200 in 508.0ms
+INFO:     127.0.0.1:59978 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:24:38 [INFO] observability_copilot.dispatch: [64d11d05-716] GET /sources → 200 in 312.1ms
+INFO:     127.0.0.1:60237 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:24:38 [INFO] observability_copilot.dispatch: [72d551f3-992] GET /scope → 200 in 396.2ms
+INFO:     127.0.0.1:60238 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:24:38 [INFO] observability_copilot.dispatch: [dec9bf0b-f0e] GET /metrics/summary → 200 in 402.1ms
+INFO:     127.0.0.1:60236 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:25:38 [INFO] observability_copilot.dispatch: [f8e7e40c-e78] OPTIONS /metrics/summary → 200 in 1.2ms
+INFO:     127.0.0.1:60509 - "OPTIONS /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:25:38 [INFO] observability_copilot.dispatch: [81f83af5-52c] OPTIONS /sources → 200 in 1.5ms
+INFO:     127.0.0.1:60510 - "OPTIONS /sources HTTP/1.1" 200 OK
+2026-02-09T21:25:38 [INFO] observability_copilot.dispatch: [7db4c7a5-e3a] OPTIONS /scope → 200 in 1.8ms
+INFO:     127.0.0.1:60511 - "OPTIONS /scope HTTP/1.1" 200 OK
+2026-02-09T21:25:38 [INFO] observability_copilot.dispatch: [dfa8a90f-c21] GET /sources → 200 in 415.8ms
+INFO:     127.0.0.1:60509 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:25:38 [INFO] observability_copilot.dispatch: [37138e33-bdc] GET /scope → 200 in 515.5ms
+INFO:     127.0.0.1:60513 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:25:38 [INFO] observability_copilot.dispatch: [77bc647e-728] GET /metrics/summary → 200 in 516.7ms
+INFO:     127.0.0.1:60512 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:26:38 [INFO] observability_copilot.dispatch: [42f029c1-321] GET /sources → 200 in 338.8ms
+INFO:     127.0.0.1:60781 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:26:38 [INFO] observability_copilot.dispatch: [db74e57b-37c] GET /scope → 200 in 398.0ms
+INFO:     127.0.0.1:60782 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:26:38 [INFO] observability_copilot.dispatch: [aa4b08a0-91d] GET /metrics/summary → 200 in 401.4ms
+INFO:     127.0.0.1:60780 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:27:38 [INFO] observability_copilot.dispatch: [371b686e-b93] GET /sources → 200 in 342.3ms
+INFO:     127.0.0.1:61066 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:27:38 [INFO] observability_copilot.dispatch: [a87c1c87-197] GET /metrics/summary → 200 in 420.8ms
+INFO:     127.0.0.1:61065 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:27:38 [INFO] observability_copilot.dispatch: [926ca789-2cb] GET /scope → 200 in 422.7ms
+INFO:     127.0.0.1:61067 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:28:38 [INFO] observability_copilot.dispatch: [ce1e58ff-177] GET /sources → 200 in 446.8ms
+INFO:     127.0.0.1:61346 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:28:38 [INFO] observability_copilot.dispatch: [db77a255-278] GET /scope → 200 in 546.0ms
+INFO:     127.0.0.1:61347 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:28:38 [INFO] observability_copilot.dispatch: [41923f77-1c2] GET /metrics/summary → 200 in 548.3ms
+INFO:     127.0.0.1:61345 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:29:38 [INFO] observability_copilot.dispatch: [95b9f705-4af] GET /sources → 200 in 315.0ms
+INFO:     127.0.0.1:61614 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:29:38 [INFO] observability_copilot.dispatch: [4c3405f5-f0d] GET /scope → 200 in 377.4ms
+INFO:     127.0.0.1:61615 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:29:38 [INFO] observability_copilot.dispatch: [0edc0f9b-0ba] GET /metrics/summary → 200 in 378.4ms
+INFO:     127.0.0.1:61613 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:30:06 [INFO] observability_copilot.dispatch: [c5e3d801-2da] OPTIONS /auth/login → 200 in 1.5ms
+INFO:     127.0.0.1:61799 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+2026-02-09T21:30:06 [WARNING] observability_copilot.dispatch: [f49ab655-31a] POST /auth/login → 401 in 5.7ms
+INFO:     127.0.0.1:61799 - "POST /auth/login HTTP/1.1" 401 Unauthorized
+(trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/passlib/handlers/bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+2026-02-09T21:30:15 [ERROR] observability_copilot._get_demo_password_hash: Failed to hash password with bcrypt: password cannot be longer than 72 bytes, truncate manually if necessary (e.g. my_password[:72])
+2026-02-09T21:30:15 [INFO] observability_copilot.dispatch: [2c2c9135-22f] POST /auth/login → 200 in 20.7ms
+INFO:     127.0.0.1:61800 - "POST /auth/login HTTP/1.1" 200 OK
+2026-02-09T21:30:42 [INFO] observability_copilot.dispatch: [2b90e391-d5f] GET /sources → 200 in 4420.9ms
+INFO:     127.0.0.1:61949 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:30:42 [INFO] observability_copilot.dispatch: [c2485232-e54] GET /scope → 200 in 4484.3ms
+INFO:     127.0.0.1:61950 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:30:42 [INFO] observability_copilot.dispatch: [28f88c2a-027] GET /metrics/summary → 200 in 4494.2ms
+INFO:     127.0.0.1:61948 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:31:38 [INFO] observability_copilot.dispatch: [1fe119b0-a85] GET /sources → 200 in 408.6ms
+INFO:     127.0.0.1:62209 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:31:38 [INFO] observability_copilot.dispatch: [453105cb-33d] GET /scope → 200 in 471.0ms
+INFO:     127.0.0.1:62210 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:31:38 [INFO] observability_copilot.dispatch: [3e74559a-8bd] GET /metrics/summary → 200 in 483.7ms
+INFO:     127.0.0.1:62208 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:32:38 [INFO] observability_copilot.dispatch: [1a81609a-180] GET /sources → 200 in 314.6ms
+INFO:     127.0.0.1:62489 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:32:38 [INFO] observability_copilot.dispatch: [3d0ef99c-b6d] GET /scope → 200 in 372.1ms
+INFO:     127.0.0.1:62490 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:32:38 [INFO] observability_copilot.dispatch: [7b98c5d1-031] GET /metrics/summary → 200 in 373.2ms
+INFO:     127.0.0.1:62488 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:33:38 [INFO] observability_copilot.dispatch: [df1f2c17-5ce] GET /sources → 200 in 583.4ms
+INFO:     127.0.0.1:62828 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:33:38 [INFO] observability_copilot.dispatch: [1b2e4840-e3b] GET /metrics/summary → 200 in 637.3ms
+INFO:     127.0.0.1:62827 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:33:38 [INFO] observability_copilot.dispatch: [4c3f9d5a-1d3] GET /scope → 200 in 735.7ms
+INFO:     127.0.0.1:62829 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:34:38 [INFO] observability_copilot.dispatch: [b5d61ebf-cf4] GET /sources → 200 in 319.2ms
+INFO:     127.0.0.1:63111 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:34:38 [INFO] observability_copilot.dispatch: [c11cfa01-c30] GET /scope → 200 in 402.4ms
+INFO:     127.0.0.1:63112 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:34:38 [INFO] observability_copilot.dispatch: [f0c5c9cb-556] GET /metrics/summary → 200 in 404.1ms
+INFO:     127.0.0.1:63110 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:35:38 [INFO] observability_copilot.dispatch: [37538308-456] GET /sources → 200 in 479.9ms
+INFO:     127.0.0.1:63377 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:35:38 [INFO] observability_copilot.dispatch: [91c1d35c-54f] GET /metrics/summary → 200 in 573.3ms
+INFO:     127.0.0.1:63376 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:35:38 [INFO] observability_copilot.dispatch: [1125b042-9ca] GET /scope → 200 in 573.4ms
+INFO:     127.0.0.1:63378 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:36:38 [INFO] observability_copilot.dispatch: [ea0c88ca-f41] OPTIONS /metrics/summary → 200 in 1.0ms
+INFO:     127.0.0.1:63648 - "OPTIONS /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:36:38 [INFO] observability_copilot.dispatch: [7efa17ee-269] OPTIONS /sources → 200 in 1.4ms
+INFO:     127.0.0.1:63649 - "OPTIONS /sources HTTP/1.1" 200 OK
+2026-02-09T21:36:38 [INFO] observability_copilot.dispatch: [798fc10f-1f5] OPTIONS /scope → 200 in 1.6ms
+INFO:     127.0.0.1:63650 - "OPTIONS /scope HTTP/1.1" 200 OK
+2026-02-09T21:36:38 [INFO] observability_copilot.dispatch: [5a0854f5-175] GET /sources → 200 in 305.3ms
+INFO:     127.0.0.1:63648 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:36:38 [INFO] observability_copilot.dispatch: [05c1b626-d29] GET /scope → 200 in 359.4ms
+INFO:     127.0.0.1:63649 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:36:38 [INFO] observability_copilot.dispatch: [d436d669-93c] GET /metrics/summary → 200 in 366.0ms
+INFO:     127.0.0.1:63651 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:37:38 [INFO] observability_copilot.dispatch: [5df43c7d-f6c] GET /sources → 200 in 314.9ms
+INFO:     127.0.0.1:63950 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:37:38 [INFO] observability_copilot.dispatch: [6aa3214b-d53] GET /scope → 200 in 378.8ms
+INFO:     127.0.0.1:63951 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:37:38 [INFO] observability_copilot.dispatch: [b3863fe2-51b] GET /metrics/summary → 200 in 387.2ms
+INFO:     127.0.0.1:63652 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:38:38 [INFO] observability_copilot.dispatch: [b7140dc2-e9f] GET /sources → 200 in 321.4ms
+INFO:     127.0.0.1:64235 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:38:38 [INFO] observability_copilot.dispatch: [98d03a8b-40b] GET /scope → 200 in 377.2ms
+INFO:     127.0.0.1:64236 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:38:38 [INFO] observability_copilot.dispatch: [dd3d6a7e-779] GET /metrics/summary → 200 in 383.2ms
+INFO:     127.0.0.1:64234 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:39:38 [INFO] observability_copilot.dispatch: [d7f535a2-83b] GET /sources → 200 in 354.0ms
+INFO:     127.0.0.1:64501 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:39:38 [INFO] observability_copilot.dispatch: [94885ef0-0dd] GET /scope → 200 in 442.3ms
+INFO:     127.0.0.1:64502 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:39:38 [INFO] observability_copilot.dispatch: [84b8ed89-05a] GET /metrics/summary → 200 in 445.2ms
+INFO:     127.0.0.1:64500 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T21:40:38 [INFO] observability_copilot.dispatch: [fc6e08ba-aa8] GET /sources → 200 in 336.9ms
+INFO:     127.0.0.1:64780 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T21:40:38 [INFO] observability_copilot.dispatch: [4f193ded-e30] GET /scope → 200 in 395.7ms
+INFO:     127.0.0.1:64781 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T21:40:38 [INFO] observability_copilot.dispatch: [a23431ca-edd] GET /metrics/summary → 200 in 397.5ms
+INFO:     127.0.0.1:64779 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:00:42 [INFO] observability_copilot.dispatch: [ab34f89e-aea] GET /sources → 200 in 1274.8ms
+INFO:     127.0.0.1:65174 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:00:42 [INFO] observability_copilot.dispatch: [3c944dc3-ec9] GET /metrics/summary → 200 in 1337.1ms
+INFO:     127.0.0.1:65173 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:00:42 [INFO] observability_copilot.dispatch: [61a95db9-bb6] GET /scope → 200 in 1341.3ms
+INFO:     127.0.0.1:65175 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:01:41 [INFO] observability_copilot.dispatch: [6346cbd3-b8b] GET /sources → 200 in 314.7ms
+INFO:     127.0.0.1:65502 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:01:41 [INFO] observability_copilot.dispatch: [7686f9bd-88e] GET /metrics/summary → 200 in 374.5ms
+INFO:     127.0.0.1:65501 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:01:41 [INFO] observability_copilot.dispatch: [a52edd67-309] GET /scope → 200 in 385.7ms
+INFO:     127.0.0.1:65503 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:02:41 [INFO] observability_copilot.dispatch: [1002aee1-8dd] GET /sources → 200 in 391.7ms
+INFO:     127.0.0.1:49418 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:02:41 [INFO] observability_copilot.dispatch: [2113c3df-e0c] GET /scope → 200 in 453.2ms
+INFO:     127.0.0.1:49419 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:02:41 [INFO] observability_copilot.dispatch: [3566b779-b93] GET /metrics/summary → 200 in 455.7ms
+INFO:     127.0.0.1:49417 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:03:41 [INFO] observability_copilot.dispatch: [a384911e-bd8] GET /sources → 200 in 459.9ms
+INFO:     127.0.0.1:49725 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:03:41 [INFO] observability_copilot.dispatch: [339a0154-d68] GET /metrics/summary → 200 in 564.4ms
+INFO:     127.0.0.1:49724 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:03:41 [INFO] observability_copilot.dispatch: [67452615-b00] GET /scope → 200 in 565.5ms
+INFO:     127.0.0.1:49726 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:04:41 [INFO] observability_copilot.dispatch: [cd09049d-22a] GET /sources → 200 in 343.9ms
+INFO:     127.0.0.1:50009 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:04:41 [INFO] observability_copilot.dispatch: [8d49cc8c-dfd] GET /scope → 200 in 422.5ms
+INFO:     127.0.0.1:50010 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:04:41 [INFO] observability_copilot.dispatch: [536a831f-dfb] GET /metrics/summary → 200 in 424.2ms
+INFO:     127.0.0.1:50008 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:05:41 [INFO] observability_copilot.dispatch: [2a2e7cb6-865] GET /sources → 200 in 392.8ms
+INFO:     127.0.0.1:50282 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:05:41 [INFO] observability_copilot.dispatch: [e2f1a024-7c5] GET /metrics/summary → 200 in 468.4ms
+INFO:     127.0.0.1:50281 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:05:41 [INFO] observability_copilot.dispatch: [aec34c69-e5a] GET /scope → 200 in 466.2ms
+INFO:     127.0.0.1:50283 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:06:41 [INFO] observability_copilot.dispatch: [6660d859-637] OPTIONS /metrics/summary → 200 in 0.9ms
+INFO:     127.0.0.1:50567 - "OPTIONS /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:06:41 [INFO] observability_copilot.dispatch: [b4c95e8a-258] OPTIONS /sources → 200 in 1.2ms
+INFO:     127.0.0.1:50568 - "OPTIONS /sources HTTP/1.1" 200 OK
+2026-02-09T22:06:41 [INFO] observability_copilot.dispatch: [3cdfc967-ae1] OPTIONS /scope → 200 in 1.2ms
+INFO:     127.0.0.1:50569 - "OPTIONS /scope HTTP/1.1" 200 OK
+2026-02-09T22:06:41 [INFO] observability_copilot.dispatch: [044432a9-b94] GET /sources → 200 in 346.8ms
+INFO:     127.0.0.1:50568 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:06:41 [INFO] observability_copilot.dispatch: [a81799ed-189] GET /scope → 200 in 458.6ms
+INFO:     127.0.0.1:50570 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:06:41 [INFO] observability_copilot.dispatch: [80e637da-d2c] GET /metrics/summary → 200 in 460.6ms
+INFO:     127.0.0.1:50567 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:07:41 [INFO] observability_copilot.dispatch: [95e9acd7-753] GET /sources → 200 in 611.3ms
+INFO:     127.0.0.1:50871 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:07:41 [INFO] observability_copilot.dispatch: [b00403bd-30f] GET /scope → 200 in 678.1ms
+INFO:     127.0.0.1:50872 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:07:41 [INFO] observability_copilot.dispatch: [3c1075d4-c6f] GET /metrics/summary → 200 in 679.8ms
+INFO:     127.0.0.1:50571 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:08:41 [INFO] observability_copilot.dispatch: [551618f0-633] GET /sources → 200 in 320.9ms
+INFO:     127.0.0.1:51453 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:08:41 [INFO] observability_copilot.dispatch: [bf8ff84a-120] GET /metrics/summary → 200 in 378.4ms
+INFO:     127.0.0.1:51452 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:08:41 [INFO] observability_copilot.dispatch: [d663a606-66e] GET /scope → 200 in 385.0ms
+INFO:     127.0.0.1:51454 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:09:41 [INFO] observability_copilot.dispatch: [92fd0cdf-e62] GET /sources → 200 in 322.3ms
+INFO:     127.0.0.1:51844 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:09:41 [INFO] observability_copilot.dispatch: [6acceced-ed8] GET /scope → 200 in 381.4ms
+INFO:     127.0.0.1:51845 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:09:41 [INFO] observability_copilot.dispatch: [3efbd9cc-d6b] GET /metrics/summary → 200 in 383.1ms
+INFO:     127.0.0.1:51843 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:10:41 [INFO] observability_copilot.dispatch: [02751ec0-e0b] GET /sources → 200 in 315.6ms
+INFO:     127.0.0.1:52234 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:10:41 [INFO] observability_copilot.dispatch: [c422acc4-fb4] GET /metrics/summary → 200 in 375.5ms
+INFO:     127.0.0.1:52233 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:10:41 [INFO] observability_copilot.dispatch: [73b26a5f-879] GET /scope → 200 in 376.8ms
+INFO:     127.0.0.1:52235 - "GET /scope HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2026-02-09T22:11:34 [INFO] observability_copilot.close_client: Elasticsearch client closed
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1644]
+INFO:     Started server process [61715]
+INFO:     Waiting for application startup.
+2026-02-09T22:11:35 [INFO] observability_copilot.build_client: Elasticsearch client created for https://my-elasticsearch-project-c5ba52.es.us-central1.gcp.elastic.cloud:443
+WARNING:  WatchFiles detected changes in 'api/routes_debug.py'. Reloading...
+2026-02-09T22:11:37 [INFO] observability_copilot.load_closures_from_es: Loaded 9 closures from Elasticsearch
+INFO:     Application startup complete.
+INFO:     Started server process [61807]
+INFO:     Waiting for application startup.
+2026-02-09T22:11:38 [INFO] observability_copilot.build_client: Elasticsearch client created for https://my-elasticsearch-project-c5ba52.es.us-central1.gcp.elastic.cloud:443
+2026-02-09T22:11:39 [INFO] observability_copilot.load_closures_from_es: Loaded 9 closures from Elasticsearch
+INFO:     Application startup complete.
+2026-02-09T22:11:41 [INFO] observability_copilot.dispatch: [6c3810d3-074] GET /metrics/summary → 200 in 393.0ms
+INFO:     127.0.0.1:52548 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:11:41 [INFO] observability_copilot.dispatch: [9ff9970c-567] GET /sources → 200 in 465.7ms
+INFO:     127.0.0.1:52549 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:11:41 [INFO] observability_copilot.dispatch: [c1ad57a9-cac] GET /scope → 200 in 542.0ms
+INFO:     127.0.0.1:52550 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:12:41 [INFO] observability_copilot.dispatch: [787dea96-24e] GET /sources → 200 in 315.0ms
+INFO:     127.0.0.1:52850 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:12:41 [INFO] observability_copilot.dispatch: [c054bc28-ef7] GET /metrics/summary → 200 in 367.4ms
+INFO:     127.0.0.1:52849 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:12:41 [INFO] observability_copilot.dispatch: [cdb1941d-7ca] GET /scope → 200 in 377.6ms
+INFO:     127.0.0.1:52851 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:13:41 [INFO] observability_copilot.dispatch: [8d791847-8b2] GET /sources → 200 in 369.3ms
+INFO:     127.0.0.1:53167 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:13:41 [INFO] observability_copilot.dispatch: [c87cfd35-4ec] GET /scope → 200 in 428.4ms
+INFO:     127.0.0.1:53168 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:13:41 [INFO] observability_copilot.dispatch: [d74249e7-2d3] GET /metrics/summary → 200 in 433.0ms
+INFO:     127.0.0.1:53166 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:14:41 [INFO] observability_copilot.dispatch: [1ef41b23-e38] GET /sources → 200 in 322.7ms
+INFO:     127.0.0.1:53465 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:14:41 [INFO] observability_copilot.dispatch: [00edb789-ba2] GET /scope → 200 in 414.3ms
+INFO:     127.0.0.1:53466 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:14:41 [INFO] observability_copilot.dispatch: [92ca5f5c-5de] GET /metrics/summary → 200 in 421.6ms
+INFO:     127.0.0.1:53464 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:15:41 [INFO] observability_copilot.dispatch: [2c34e1f3-2aa] GET /sources → 200 in 392.8ms
+INFO:     127.0.0.1:53732 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:15:41 [INFO] observability_copilot.dispatch: [890565f1-97b] GET /scope → 200 in 450.9ms
+INFO:     127.0.0.1:53733 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:15:41 [INFO] observability_copilot.dispatch: [dd8730b2-af1] GET /metrics/summary → 200 in 453.8ms
+INFO:     127.0.0.1:53731 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:16:41 [INFO] observability_copilot.dispatch: [807b731c-018] GET /sources → 200 in 465.3ms
+INFO:     127.0.0.1:54006 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:16:41 [INFO] observability_copilot.dispatch: [5797eeb4-e6a] GET /scope → 200 in 541.3ms
+INFO:     127.0.0.1:54007 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:16:41 [INFO] observability_copilot.dispatch: [d34913a8-ac3] GET /metrics/summary → 200 in 542.4ms
+INFO:     127.0.0.1:54005 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:17:41 [INFO] observability_copilot.dispatch: [1079ea25-c40] OPTIONS /metrics/summary → 200 in 1.9ms
+INFO:     127.0.0.1:54302 - "OPTIONS /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:17:41 [INFO] observability_copilot.dispatch: [56e21929-7d8] OPTIONS /sources → 200 in 2.8ms
+INFO:     127.0.0.1:54303 - "OPTIONS /sources HTTP/1.1" 200 OK
+2026-02-09T22:17:41 [INFO] observability_copilot.dispatch: [fc7043d1-c92] OPTIONS /scope → 200 in 3.2ms
+INFO:     127.0.0.1:54304 - "OPTIONS /scope HTTP/1.1" 200 OK
+2026-02-09T22:17:41 [INFO] observability_copilot.dispatch: [9b6de2a0-f0a] GET /sources → 200 in 313.5ms
+INFO:     127.0.0.1:54307 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:17:41 [INFO] observability_copilot.dispatch: [ceb8c800-83a] GET /scope → 200 in 371.3ms
+INFO:     127.0.0.1:54303 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:17:41 [INFO] observability_copilot.dispatch: [f4e4a8ba-a1c] GET /metrics/summary → 200 in 372.3ms
+INFO:     127.0.0.1:54306 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:18:41 [INFO] observability_copilot.dispatch: [a0bcca19-f0a] GET /sources → 200 in 384.8ms
+INFO:     127.0.0.1:54600 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:18:41 [INFO] observability_copilot.dispatch: [50054603-056] GET /metrics/summary → 200 in 483.4ms
+INFO:     127.0.0.1:54599 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:18:41 [INFO] observability_copilot.dispatch: [2573d6e0-35b] GET /scope → 200 in 486.6ms
+INFO:     127.0.0.1:54601 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:19:41 [INFO] observability_copilot.dispatch: [ca2368ba-cd7] GET /sources → 200 in 316.9ms
+INFO:     127.0.0.1:54869 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:19:41 [INFO] observability_copilot.dispatch: [da3a3459-b17] GET /scope → 200 in 377.1ms
+INFO:     127.0.0.1:54870 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:19:41 [INFO] observability_copilot.dispatch: [5b016d95-4f1] GET /metrics/summary → 200 in 382.0ms
+INFO:     127.0.0.1:54868 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:20:41 [INFO] observability_copilot.dispatch: [61038f2a-bc9] GET /sources → 200 in 369.6ms
+INFO:     127.0.0.1:55137 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:20:41 [INFO] observability_copilot.dispatch: [69f30d60-34a] GET /scope → 200 in 459.6ms
+INFO:     127.0.0.1:55138 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:20:41 [INFO] observability_copilot.dispatch: [d1ccd9d1-8a0] GET /metrics/summary → 200 in 697.1ms
+INFO:     127.0.0.1:55136 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:21:41 [INFO] observability_copilot.dispatch: [facbaec6-db5] GET /sources → 200 in 444.3ms
+INFO:     127.0.0.1:55525 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:21:41 [INFO] observability_copilot.dispatch: [4d887b8d-94a] GET /scope → 200 in 527.6ms
+INFO:     127.0.0.1:55526 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:21:41 [INFO] observability_copilot.dispatch: [a5c92c18-9b5] GET /metrics/summary → 200 in 535.2ms
+INFO:     127.0.0.1:55524 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:22:41 [INFO] observability_copilot.dispatch: [6730dc85-d4b] GET /sources → 200 in 312.5ms
+INFO:     127.0.0.1:55807 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:22:41 [INFO] observability_copilot.dispatch: [a32bb8b9-d27] GET /scope → 200 in 373.9ms
+INFO:     127.0.0.1:55808 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:22:41 [INFO] observability_copilot.dispatch: [dc59a935-281] GET /metrics/summary → 200 in 375.4ms
+INFO:     127.0.0.1:55806 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:23:41 [INFO] observability_copilot.dispatch: [c6fe1285-9bc] GET /sources → 200 in 358.0ms
+INFO:     127.0.0.1:56125 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:23:41 [INFO] observability_copilot.dispatch: [a62f4b66-5a7] GET /scope → 200 in 418.4ms
+INFO:     127.0.0.1:56126 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:23:41 [INFO] observability_copilot.dispatch: [4f78056d-184] GET /metrics/summary → 200 in 421.3ms
+INFO:     127.0.0.1:56124 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:24:41 [INFO] observability_copilot.dispatch: [e5759f80-c8f] GET /sources → 200 in 338.2ms
+INFO:     127.0.0.1:56395 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:24:41 [INFO] observability_copilot.dispatch: [cb6980f5-eea] GET /scope → 200 in 397.4ms
+INFO:     127.0.0.1:56396 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:24:41 [INFO] observability_copilot.dispatch: [aaabdfd5-0cf] GET /metrics/summary → 200 in 399.2ms
+INFO:     127.0.0.1:56394 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:25:41 [INFO] observability_copilot.dispatch: [67eac899-498] GET /sources → 200 in 389.9ms
+INFO:     127.0.0.1:56658 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:25:41 [INFO] observability_copilot.dispatch: [0444ec33-90e] GET /metrics/summary → 200 in 489.2ms
+INFO:     127.0.0.1:56657 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:25:41 [INFO] observability_copilot.dispatch: [4cc15419-fc4] GET /scope → 200 in 490.7ms
+INFO:     127.0.0.1:56659 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:26:41 [INFO] observability_copilot.dispatch: [37028e56-d9d] GET /sources → 200 in 715.2ms
+INFO:     127.0.0.1:56934 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:26:41 [INFO] observability_copilot.dispatch: [d8ee8fc9-c51] GET /scope → 200 in 771.3ms
+INFO:     127.0.0.1:56935 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:26:41 [INFO] observability_copilot.dispatch: [47ab2d5e-82a] GET /metrics/summary → 200 in 775.5ms
+INFO:     127.0.0.1:56933 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:27:41 [INFO] observability_copilot.dispatch: [308eb340-319] OPTIONS /metrics/summary → 200 in 0.4ms
+INFO:     127.0.0.1:57225 - "OPTIONS /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:27:41 [INFO] observability_copilot.dispatch: [44a8b0e2-b51] OPTIONS /sources → 200 in 1.6ms
+INFO:     127.0.0.1:57226 - "OPTIONS /sources HTTP/1.1" 200 OK
+2026-02-09T22:27:41 [INFO] observability_copilot.dispatch: [2d4e7d7d-e04] OPTIONS /scope → 200 in 1.7ms
+INFO:     127.0.0.1:57225 - "OPTIONS /scope HTTP/1.1" 200 OK
+2026-02-09T22:27:41 [INFO] observability_copilot.dispatch: [b31a9323-f65] GET /sources → 200 in 299.9ms
+INFO:     127.0.0.1:57228 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:27:41 [INFO] observability_copilot.dispatch: [a1abacdd-2af] GET /metrics/summary → 200 in 367.0ms
+INFO:     127.0.0.1:57227 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:27:41 [INFO] observability_copilot.dispatch: [0412d0e7-4cc] GET /scope → 200 in 364.6ms
+INFO:     127.0.0.1:57226 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:28:41 [INFO] observability_copilot.dispatch: [bb22ba95-67f] GET /sources → 200 in 348.4ms
+INFO:     127.0.0.1:57494 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:28:41 [INFO] observability_copilot.dispatch: [d18f36e8-8dd] GET /scope → 200 in 418.4ms
+INFO:     127.0.0.1:57495 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:28:41 [INFO] observability_copilot.dispatch: [4733744b-5b6] GET /metrics/summary → 200 in 419.6ms
+INFO:     127.0.0.1:57493 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:29:41 [INFO] observability_copilot.dispatch: [c9d4416a-b77] GET /sources → 200 in 435.4ms
+INFO:     127.0.0.1:57796 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:29:41 [INFO] observability_copilot.dispatch: [8ca4ee49-867] GET /metrics/summary → 200 in 491.3ms
+INFO:     127.0.0.1:57795 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:29:41 [INFO] observability_copilot.dispatch: [dfae1d5b-38b] GET /scope → 200 in 492.8ms
+INFO:     127.0.0.1:57797 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:30:41 [INFO] observability_copilot.dispatch: [02c0fdb8-7bd] GET /sources → 200 in 367.1ms
+INFO:     127.0.0.1:58060 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:30:41 [INFO] observability_copilot.dispatch: [b0f19390-21d] GET /scope → 200 in 439.0ms
+INFO:     127.0.0.1:58061 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:30:41 [INFO] observability_copilot.dispatch: [d762f658-4a1] GET /metrics/summary → 200 in 452.2ms
+INFO:     127.0.0.1:58059 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:31:41 [INFO] observability_copilot.dispatch: [98405f93-76b] GET /sources → 200 in 345.0ms
+INFO:     127.0.0.1:58350 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:31:41 [INFO] observability_copilot.dispatch: [3d4eb20a-8ff] GET /scope → 200 in 405.6ms
+INFO:     127.0.0.1:58351 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:31:41 [INFO] observability_copilot.dispatch: [e9b5c292-eed] GET /metrics/summary → 200 in 409.4ms
+INFO:     127.0.0.1:58349 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:32:41 [INFO] observability_copilot.dispatch: [afdf5984-31b] GET /sources → 200 in 499.3ms
+INFO:     127.0.0.1:58639 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:32:41 [INFO] observability_copilot.dispatch: [7eb01df5-99a] GET /scope → 200 in 604.3ms
+INFO:     127.0.0.1:58640 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:32:41 [INFO] observability_copilot.dispatch: [f6073f2b-335] GET /metrics/summary → 200 in 606.9ms
+INFO:     127.0.0.1:58638 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:33:41 [INFO] observability_copilot.dispatch: [c099f960-c3f] GET /sources → 200 in 826.1ms
+INFO:     127.0.0.1:59021 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:33:42 [INFO] observability_copilot.dispatch: [b08b338b-d63] GET /scope → 200 in 888.4ms
+INFO:     127.0.0.1:59022 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:33:42 [INFO] observability_copilot.dispatch: [aba71acc-312] GET /metrics/summary → 200 in 891.6ms
+INFO:     127.0.0.1:59020 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:34:41 [INFO] observability_copilot.dispatch: [c4faec3f-aed] GET /sources → 200 in 409.6ms
+INFO:     127.0.0.1:59893 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:34:41 [INFO] observability_copilot.dispatch: [48aab773-ee4] GET /scope → 200 in 497.1ms
+INFO:     127.0.0.1:59894 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:34:41 [INFO] observability_copilot.dispatch: [7c007d3e-b55] GET /metrics/summary → 200 in 498.9ms
+INFO:     127.0.0.1:59892 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:35:41 [INFO] observability_copilot.dispatch: [d37d54b4-6fe] GET /sources → 200 in 318.1ms
+INFO:     127.0.0.1:60164 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:35:41 [INFO] observability_copilot.dispatch: [ea9caeb6-6bb] GET /scope → 200 in 377.9ms
+INFO:     127.0.0.1:60165 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:35:41 [INFO] observability_copilot.dispatch: [e773f56f-ddc] GET /metrics/summary → 200 in 380.9ms
+INFO:     127.0.0.1:60163 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:36:41 [INFO] observability_copilot.dispatch: [aab1d01c-aa4] GET /sources → 200 in 316.9ms
+INFO:     127.0.0.1:60474 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:36:41 [INFO] observability_copilot.dispatch: [b009fe4f-d78] GET /metrics/summary → 200 in 388.0ms
+INFO:     127.0.0.1:60473 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:36:41 [INFO] observability_copilot.dispatch: [af809c87-435] GET /scope → 200 in 392.9ms
+INFO:     127.0.0.1:60475 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:37:41 [INFO] observability_copilot.dispatch: [94c8cf8f-c76] OPTIONS /metrics/summary → 200 in 1.2ms
+INFO:     127.0.0.1:60771 - "OPTIONS /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:37:41 [INFO] observability_copilot.dispatch: [1aa6a74f-8b1] OPTIONS /sources → 200 in 1.9ms
+INFO:     127.0.0.1:60772 - "OPTIONS /sources HTTP/1.1" 200 OK
+2026-02-09T22:37:41 [INFO] observability_copilot.dispatch: [3517f669-052] OPTIONS /scope → 200 in 0.9ms
+INFO:     127.0.0.1:60772 - "OPTIONS /scope HTTP/1.1" 200 OK
+2026-02-09T22:37:41 [INFO] observability_copilot.dispatch: [24b12046-ee2] GET /sources → 200 in 298.0ms
+INFO:     127.0.0.1:60773 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:37:41 [INFO] observability_copilot.dispatch: [c33ce82e-e9f] GET /scope → 200 in 352.2ms
+INFO:     127.0.0.1:60772 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:37:41 [INFO] observability_copilot.dispatch: [694f05ac-751] GET /metrics/summary → 200 in 366.9ms
+INFO:     127.0.0.1:60771 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:38:41 [INFO] observability_copilot.dispatch: [d9479a2f-5dd] GET /sources → 200 in 305.4ms
+INFO:     127.0.0.1:61044 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:38:41 [INFO] observability_copilot.dispatch: [0a940633-6bb] GET /scope → 200 in 367.4ms
+INFO:     127.0.0.1:61045 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:38:41 [INFO] observability_copilot.dispatch: [caa3fc60-df0] GET /metrics/summary → 200 in 371.8ms
+INFO:     127.0.0.1:60774 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:39:41 [INFO] observability_copilot.dispatch: [e0e70c28-982] GET /sources → 200 in 336.3ms
+INFO:     127.0.0.1:61334 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:39:41 [INFO] observability_copilot.dispatch: [3abdc4e0-974] GET /scope → 200 in 397.2ms
+INFO:     127.0.0.1:61335 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:39:41 [INFO] observability_copilot.dispatch: [62431952-83e] GET /metrics/summary → 200 in 400.8ms
+INFO:     127.0.0.1:61333 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:40:41 [INFO] observability_copilot.dispatch: [0f0a8f3a-4c2] GET /sources → 200 in 318.2ms
+INFO:     127.0.0.1:61609 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:40:41 [INFO] observability_copilot.dispatch: [5b85f2d6-935] GET /scope → 200 in 374.4ms
+INFO:     127.0.0.1:61610 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:40:41 [INFO] observability_copilot.dispatch: [4f70a4fa-79f] GET /metrics/summary → 200 in 378.5ms
+INFO:     127.0.0.1:61608 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:41:41 [INFO] observability_copilot.dispatch: [71411d08-c0d] GET /sources → 200 in 322.5ms
+INFO:     127.0.0.1:61904 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:41:41 [INFO] observability_copilot.dispatch: [69e75dd0-75c] GET /scope → 200 in 408.5ms
+INFO:     127.0.0.1:61905 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:41:41 [INFO] observability_copilot.dispatch: [457ec918-2e1] GET /metrics/summary → 200 in 413.4ms
+INFO:     127.0.0.1:61903 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:42:41 [INFO] observability_copilot.dispatch: [ecdefda4-ae8] GET /sources → 200 in 310.4ms
+INFO:     127.0.0.1:62203 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:42:41 [INFO] observability_copilot.dispatch: [489bdb43-b0f] GET /metrics/summary → 200 in 427.6ms
+INFO:     127.0.0.1:62202 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:42:41 [INFO] observability_copilot.dispatch: [09745160-700] GET /scope → 200 in 428.6ms
+INFO:     127.0.0.1:62204 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:43:04 [INFO] observability_copilot.dispatch: [822c301c-50f] OPTIONS /investigations → 200 in 2.5ms
+INFO:     127.0.0.1:62315 - "OPTIONS /investigations HTTP/1.1" 200 OK
+2026-02-09T22:43:04 [INFO] observability_copilot.dispatch: [394cb610-263] OPTIONS /service-health → 200 in 3.1ms
+INFO:     127.0.0.1:62316 - "OPTIONS /service-health HTTP/1.1" 200 OK
+2026-02-09T22:43:04 [INFO] observability_copilot.dispatch: [b209b1cd-47e] OPTIONS /findings/recent → 200 in 3.4ms
+INFO:     127.0.0.1:62317 - "OPTIONS /findings/recent?limit=5 HTTP/1.1" 200 OK
+2026-02-09T22:43:04 [INFO] observability_copilot.dispatch: [e43d22b2-177] OPTIONS /investigations → 200 in 4.1ms
+INFO:     127.0.0.1:62318 - "OPTIONS /investigations HTTP/1.1" 200 OK
+2026-02-09T22:43:04 [INFO] observability_copilot.dispatch: [72ec2d4c-ea8] OPTIONS /service-health → 200 in 4.4ms
+INFO:     127.0.0.1:62319 - "OPTIONS /service-health HTTP/1.1" 200 OK
+2026-02-09T22:43:04 [INFO] observability_copilot.dispatch: [571e3e4f-fca] OPTIONS /findings/recent → 200 in 4.7ms
+INFO:     127.0.0.1:62320 - "OPTIONS /findings/recent?limit=5 HTTP/1.1" 200 OK
+2026-02-09T22:43:04 [WARNING] observability_copilot.dispatch: [13130d49-de2] GET /investigations → 401 in 6.4ms
+INFO:     127.0.0.1:62321 - "GET /investigations HTTP/1.1" 401 Unauthorized
+2026-02-09T22:43:04 [WARNING] observability_copilot.dispatch: [b5113112-8cb] GET /service-health → 401 in 6.5ms
+INFO:     127.0.0.1:62322 - "GET /service-health HTTP/1.1" 401 Unauthorized
+2026-02-09T22:43:04 [WARNING] observability_copilot.dispatch: [3b720ef1-36b] GET /findings/recent → 401 in 6.6ms
+INFO:     127.0.0.1:62323 - "GET /findings/recent?limit=5 HTTP/1.1" 401 Unauthorized
+2026-02-09T22:43:04 [WARNING] observability_copilot.dispatch: [8b8d7709-af7] GET /investigations → 401 in 1.7ms
+INFO:     127.0.0.1:62324 - "GET /investigations HTTP/1.1" 401 Unauthorized
+2026-02-09T22:43:04 [WARNING] observability_copilot.dispatch: [c17f8b5e-4dc] GET /service-health → 401 in 1.8ms
+INFO:     127.0.0.1:62321 - "GET /service-health HTTP/1.1" 401 Unauthorized
+2026-02-09T22:43:04 [WARNING] observability_copilot.dispatch: [a30569ec-bb1] GET /findings/recent → 401 in 1.8ms
+INFO:     127.0.0.1:62325 - "GET /findings/recent?limit=5 HTTP/1.1" 401 Unauthorized
+2026-02-09T22:43:41 [INFO] observability_copilot.dispatch: [7ed61264-0b8] GET /sources → 200 in 353.9ms
+INFO:     127.0.0.1:62497 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:43:41 [INFO] observability_copilot.dispatch: [8d09deb6-1c2] GET /metrics/summary → 200 in 425.4ms
+INFO:     127.0.0.1:62496 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:43:41 [INFO] observability_copilot.dispatch: [c81d855f-fa4] GET /scope → 200 in 424.7ms
+INFO:     127.0.0.1:62498 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:44:41 [INFO] observability_copilot.dispatch: [25b2feac-6aa] GET /sources → 200 in 321.1ms
+INFO:     127.0.0.1:62810 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:44:41 [INFO] observability_copilot.dispatch: [e8b43527-0b0] GET /metrics/summary → 200 in 390.2ms
+INFO:     127.0.0.1:62809 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:44:41 [INFO] observability_copilot.dispatch: [3daba99f-5fd] GET /scope → 200 in 395.2ms
+INFO:     127.0.0.1:62811 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:45:41 [INFO] observability_copilot.dispatch: [24ac5c9e-0a1] GET /sources → 200 in 312.7ms
+INFO:     127.0.0.1:63074 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:45:41 [INFO] observability_copilot.dispatch: [e98a66e3-03d] GET /scope → 200 in 370.7ms
+INFO:     127.0.0.1:63075 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:45:41 [INFO] observability_copilot.dispatch: [dd09c7a1-8f3] GET /metrics/summary → 200 in 372.9ms
+INFO:     127.0.0.1:63073 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:46:41 [INFO] observability_copilot.dispatch: [560edf4f-c0d] GET /sources → 200 in 318.1ms
+INFO:     127.0.0.1:63347 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:46:41 [INFO] observability_copilot.dispatch: [698e831c-8c0] GET /scope → 200 in 380.2ms
+INFO:     127.0.0.1:63348 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:46:41 [INFO] observability_copilot.dispatch: [0d85af35-3c6] GET /metrics/summary → 200 in 382.4ms
+INFO:     127.0.0.1:63346 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:47:41 [INFO] observability_copilot.dispatch: [51254539-6d2] GET /sources → 200 in 359.7ms
+INFO:     127.0.0.1:63626 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:47:41 [INFO] observability_copilot.dispatch: [0c592e76-313] GET /scope → 200 in 449.3ms
+INFO:     127.0.0.1:63627 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:47:41 [INFO] observability_copilot.dispatch: [8a3015fc-5f4] GET /metrics/summary → 200 in 453.8ms
+INFO:     127.0.0.1:63625 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:48:41 [INFO] observability_copilot.dispatch: [71919169-6a8] OPTIONS /metrics/summary → 200 in 5.7ms
+INFO:     127.0.0.1:63916 - "OPTIONS /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:48:41 [INFO] observability_copilot.dispatch: [0119bd0d-52d] OPTIONS /sources → 200 in 4.9ms
+INFO:     127.0.0.1:63917 - "OPTIONS /sources HTTP/1.1" 200 OK
+2026-02-09T22:48:41 [INFO] observability_copilot.dispatch: [7c7bde37-8f9] OPTIONS /scope → 200 in 3.3ms
+INFO:     127.0.0.1:63918 - "OPTIONS /scope HTTP/1.1" 200 OK
+2026-02-09T22:48:41 [INFO] observability_copilot.dispatch: [0fea6fdc-e2d] GET /sources → 200 in 382.8ms
+INFO:     127.0.0.1:63920 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:48:41 [INFO] observability_copilot.dispatch: [c741f939-a75] GET /scope → 200 in 470.9ms
+INFO:     127.0.0.1:63917 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:48:41 [INFO] observability_copilot.dispatch: [6b3ab3bb-14d] GET /metrics/summary → 200 in 475.3ms
+INFO:     127.0.0.1:63919 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:49:41 [INFO] observability_copilot.dispatch: [d44afa91-3c4] GET /sources → 200 in 371.4ms
+INFO:     127.0.0.1:64199 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:49:41 [INFO] observability_copilot.dispatch: [c35a283e-8bb] GET /scope → 200 in 428.3ms
+INFO:     127.0.0.1:64200 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:49:41 [INFO] observability_copilot.dispatch: [d3e1d881-169] GET /metrics/summary → 200 in 433.8ms
+INFO:     127.0.0.1:64198 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:50:41 [INFO] observability_copilot.dispatch: [5fb80473-0d4] GET /sources → 200 in 418.2ms
+INFO:     127.0.0.1:64483 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:50:41 [INFO] observability_copilot.dispatch: [23e32da2-955] GET /scope → 200 in 478.5ms
+INFO:     127.0.0.1:64484 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:50:41 [INFO] observability_copilot.dispatch: [524c8692-50e] GET /metrics/summary → 200 in 481.3ms
+INFO:     127.0.0.1:64482 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:51:41 [INFO] observability_copilot.dispatch: [84ba85bd-53e] GET /sources → 200 in 348.4ms
+INFO:     127.0.0.1:64792 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:51:41 [INFO] observability_copilot.dispatch: [3e0ee3f1-cfa] GET /scope → 200 in 408.1ms
+INFO:     127.0.0.1:64793 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:51:41 [INFO] observability_copilot.dispatch: [7b437252-af0] GET /metrics/summary → 200 in 416.9ms
+INFO:     127.0.0.1:64791 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:52:41 [INFO] observability_copilot.dispatch: [0fa68ef1-ce3] GET /sources → 200 in 477.0ms
+INFO:     127.0.0.1:65078 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:52:41 [INFO] observability_copilot.dispatch: [075c4e30-711] GET /scope → 200 in 543.7ms
+INFO:     127.0.0.1:65079 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:52:41 [INFO] observability_copilot.dispatch: [f4b85352-b1f] GET /metrics/summary → 200 in 544.6ms
+INFO:     127.0.0.1:65077 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:53:41 [INFO] observability_copilot.dispatch: [30a7d71b-03d] GET /sources → 200 in 382.5ms
+INFO:     127.0.0.1:65349 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:53:41 [INFO] observability_copilot.dispatch: [8bb14e7f-125] GET /scope → 200 in 446.7ms
+INFO:     127.0.0.1:65350 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:53:41 [INFO] observability_copilot.dispatch: [82128921-7be] GET /metrics/summary → 200 in 449.0ms
+INFO:     127.0.0.1:65348 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:54:41 [INFO] observability_copilot.dispatch: [f8d5a86e-563] GET /sources → 200 in 384.1ms
+INFO:     127.0.0.1:49247 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:54:41 [INFO] observability_copilot.dispatch: [0815de9a-73d] GET /scope → 200 in 467.7ms
+INFO:     127.0.0.1:49248 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:54:41 [INFO] observability_copilot.dispatch: [2bd5cce7-a31] GET /metrics/summary → 200 in 485.2ms
+INFO:     127.0.0.1:49246 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:55:41 [INFO] observability_copilot.dispatch: [49f4f1b5-7db] GET /sources → 200 in 334.9ms
+INFO:     127.0.0.1:49507 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:55:41 [INFO] observability_copilot.dispatch: [474bfc14-06c] GET /metrics/summary → 200 in 396.1ms
+INFO:     127.0.0.1:49506 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:55:41 [INFO] observability_copilot.dispatch: [5fc81d61-a91] GET /scope → 200 in 487.0ms
+INFO:     127.0.0.1:49508 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:56:41 [INFO] observability_copilot.dispatch: [3ecd5ab2-c3b] GET /sources → 200 in 342.9ms
+INFO:     127.0.0.1:49795 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:56:41 [INFO] observability_copilot.dispatch: [81df7e5b-1b2] GET /metrics/summary → 200 in 425.8ms
+INFO:     127.0.0.1:49794 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:56:41 [INFO] observability_copilot.dispatch: [a198bf22-901] GET /scope → 200 in 425.5ms
+INFO:     127.0.0.1:49796 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:57:41 [INFO] observability_copilot.dispatch: [db08c22d-435] GET /sources → 200 in 344.9ms
+INFO:     127.0.0.1:50152 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:57:41 [INFO] observability_copilot.dispatch: [f929bf05-88c] GET /scope → 200 in 417.9ms
+INFO:     127.0.0.1:50153 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:57:41 [INFO] observability_copilot.dispatch: [0c567ef2-e40] GET /metrics/summary → 200 in 418.6ms
+INFO:     127.0.0.1:50151 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:58:41 [INFO] observability_copilot.dispatch: [e8fc240a-65e] OPTIONS /metrics/summary → 200 in 1.0ms
+INFO:     127.0.0.1:50422 - "OPTIONS /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:58:41 [INFO] observability_copilot.dispatch: [b5e74d69-3a0] OPTIONS /sources → 200 in 4.1ms
+INFO:     127.0.0.1:50423 - "OPTIONS /sources HTTP/1.1" 200 OK
+2026-02-09T22:58:41 [INFO] observability_copilot.dispatch: [1cac5a48-a31] OPTIONS /scope → 200 in 6.9ms
+INFO:     127.0.0.1:50424 - "OPTIONS /scope HTTP/1.1" 200 OK
+2026-02-09T22:58:41 [INFO] observability_copilot.dispatch: [20aa0f06-b7d] GET /sources → 200 in 377.0ms
+INFO:     127.0.0.1:50428 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:58:41 [INFO] observability_copilot.dispatch: [fadb5226-5db] GET /metrics/summary → 200 in 440.4ms
+INFO:     127.0.0.1:50427 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:58:41 [INFO] observability_copilot.dispatch: [aa0d3014-0ce] GET /scope → 200 in 441.2ms
+INFO:     127.0.0.1:50422 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T22:59:41 [INFO] observability_copilot.dispatch: [79ff49c3-385] GET /sources → 200 in 407.3ms
+INFO:     127.0.0.1:50717 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T22:59:41 [INFO] observability_copilot.dispatch: [6e400d44-b50] GET /metrics/summary → 200 in 488.7ms
+INFO:     127.0.0.1:50429 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T22:59:41 [INFO] observability_copilot.dispatch: [ab3c4929-80b] GET /scope → 200 in 488.0ms
+INFO:     127.0.0.1:50718 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T23:00:41 [INFO] observability_copilot.dispatch: [fb1881b4-f94] GET /sources → 200 in 310.0ms
+INFO:     127.0.0.1:50982 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T23:00:41 [INFO] observability_copilot.dispatch: [397d2a7c-45a] GET /scope → 200 in 386.8ms
+INFO:     127.0.0.1:50983 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T23:00:41 [INFO] observability_copilot.dispatch: [4092414d-7b4] GET /metrics/summary → 200 in 389.8ms
+INFO:     127.0.0.1:50981 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T23:01:41 [INFO] observability_copilot.dispatch: [8bdc13f7-465] GET /sources → 200 in 333.9ms
+INFO:     127.0.0.1:51284 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T23:01:41 [INFO] observability_copilot.dispatch: [a65e8a73-b1f] GET /scope → 200 in 396.0ms
+INFO:     127.0.0.1:51285 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T23:01:41 [INFO] observability_copilot.dispatch: [854c8884-957] GET /metrics/summary → 200 in 400.1ms
+INFO:     127.0.0.1:51283 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T23:02:41 [INFO] observability_copilot.dispatch: [8f353e78-578] GET /sources → 200 in 311.5ms
+INFO:     127.0.0.1:51592 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T23:02:41 [INFO] observability_copilot.dispatch: [fcc96d5c-bc2] GET /scope → 200 in 388.4ms
+INFO:     127.0.0.1:51593 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T23:02:41 [INFO] observability_copilot.dispatch: [96b31a33-1dd] GET /metrics/summary → 200 in 395.2ms
+INFO:     127.0.0.1:51591 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T23:03:41 [INFO] observability_copilot.dispatch: [95f79417-c44] GET /sources → 200 in 318.0ms
+INFO:     127.0.0.1:51948 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T23:03:41 [INFO] observability_copilot.dispatch: [d51ea93a-b4b] GET /scope → 200 in 382.0ms
+INFO:     127.0.0.1:51949 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T23:03:41 [INFO] observability_copilot.dispatch: [51197a93-021] GET /metrics/summary → 200 in 384.8ms
+INFO:     127.0.0.1:51947 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T23:04:41 [INFO] observability_copilot.dispatch: [2ce28455-89c] GET /sources → 200 in 345.6ms
+INFO:     127.0.0.1:52230 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T23:04:41 [INFO] observability_copilot.dispatch: [4135e897-561] GET /scope → 200 in 408.6ms
+INFO:     127.0.0.1:52231 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T23:04:41 [INFO] observability_copilot.dispatch: [7006e680-91f] GET /metrics/summary → 200 in 424.7ms
+INFO:     127.0.0.1:52229 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T23:05:41 [INFO] observability_copilot.dispatch: [e8bfb08d-a22] GET /sources → 200 in 333.5ms
+INFO:     127.0.0.1:52491 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T23:05:41 [INFO] observability_copilot.dispatch: [8565cca2-5bc] GET /metrics/summary → 200 in 399.1ms
+INFO:     127.0.0.1:52490 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T23:05:41 [INFO] observability_copilot.dispatch: [c3a19d4a-13a] GET /scope → 200 in 398.3ms
+INFO:     127.0.0.1:52492 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T23:06:41 [INFO] observability_copilot.dispatch: [68afa5e2-92d] GET /sources → 200 in 317.5ms
+INFO:     127.0.0.1:52777 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T23:06:41 [INFO] observability_copilot.dispatch: [f7d23d32-668] GET /scope → 200 in 385.3ms
+INFO:     127.0.0.1:52778 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T23:06:41 [INFO] observability_copilot.dispatch: [553184a0-2a0] GET /metrics/summary → 200 in 389.0ms
+INFO:     127.0.0.1:52776 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T23:07:41 [INFO] observability_copilot.dispatch: [21d03d2e-c54] GET /sources → 200 in 346.8ms
+INFO:     127.0.0.1:53064 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T23:07:41 [INFO] observability_copilot.dispatch: [e33dd97d-5ae] GET /metrics/summary → 200 in 407.7ms
+INFO:     127.0.0.1:53063 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T23:07:41 [INFO] observability_copilot.dispatch: [b7eea510-bbb] GET /scope → 200 in 409.2ms
+INFO:     127.0.0.1:53065 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T23:08:41 [INFO] observability_copilot.dispatch: [ece16f58-403] OPTIONS /metrics/summary → 200 in 0.9ms
+INFO:     127.0.0.1:53339 - "OPTIONS /metrics/summary?time_range=1h HTTP/1.1" 200 OK
+2026-02-09T23:08:41 [INFO] observability_copilot.dispatch: [aca66afd-d97] OPTIONS /sources → 200 in 1.5ms
+INFO:     127.0.0.1:53340 - "OPTIONS /sources HTTP/1.1" 200 OK
+2026-02-09T23:08:41 [INFO] observability_copilot.dispatch: [a1f5e446-50c] OPTIONS /scope → 200 in 1.7ms
+INFO:     127.0.0.1:53341 - "OPTIONS /scope HTTP/1.1" 200 OK
+2026-02-09T23:08:41 [INFO] observability_copilot.dispatch: [8c4b5aa1-494] GET /sources → 200 in 306.4ms
+INFO:     127.0.0.1:53342 - "GET /sources HTTP/1.1" 200 OK
+2026-02-09T23:08:41 [INFO] observability_copilot.dispatch: [ffc96785-c5e] GET /scope → 200 in 364.6ms
+INFO:     127.0.0.1:53340 - "GET /scope HTTP/1.1" 200 OK
+2026-02-09T23:08:41 [INFO] observability_copilot.dispatch: [d4eba9d7-ab7] GET /metrics/summary → 200 in 368.5ms
+INFO:     127.0.0.1:53339 - "GET /metrics/summary?time_range=1h HTTP/1.1" 200 OK

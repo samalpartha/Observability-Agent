@@ -1,0 +1,183 @@
+
+> observability-copilot-frontend@0.1.0 dev
+> next dev -p 3001
+
+  ▲ Next.js 14.2.15
+  - Local:        http://localhost:3001
+
+ ✓ Starting...
+ ✓ Ready in 1346ms
+(node:26000) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ○ Compiling / ...
+ ✓ Compiled / in 2.2s (518 modules)
+ GET / 200 in 2330ms
+ ✓ Compiled in 113ms (261 modules)
+ GET / 200 in 79ms
+ ✓ Compiled /login in 158ms (495 modules)
+ GET /grid.svg 404 in 193ms
+ GET /grid.svg 404 in 11ms
+ GET /grid.svg 404 in 14ms
+ ✓ Compiled in 118ms (263 modules)
+ ✓ Compiled /_not-found in 116ms (509 modules)
+ GET /grid.svg 404 in 147ms
+ GET /grid.svg 404 in 11ms
+ ✓ Compiled in 215ms (509 modules)
+ GET /grid.svg 404 in 16ms
+ ✓ Compiled in 112ms (509 modules)
+ GET /grid.svg 404 in 18ms
+ ✓ Compiled in 194ms (511 modules)
+ GET /grid.svg 404 in 21ms
+ ✓ Compiled in 156ms (508 modules)
+ ✓ Compiled in 127ms (264 modules)
+ ✓ Compiled in 85ms (264 modules)
+ ✓ Compiled in 87ms (264 modules)
+ ✓ Compiled in 66ms (264 modules)
+ ✓ Compiled in 173ms (508 modules)
+ ✓ Compiled in 124ms (514 modules)
+ ✓ Compiled in 86ms (514 modules)
+ ✓ Compiled in 106ms (514 modules)
+ ✓ Compiled in 82ms (514 modules)
+ ✓ Compiled in 89ms (267 modules)
+ ✓ Compiled in 125ms (514 modules)
+ ✓ Compiled in 105ms (514 modules)
+ ✓ Compiled in 88ms (514 modules)
+ ✓ Compiled in 90ms (514 modules)
+ ✓ Compiled in 123ms (514 modules)
+ ✓ Compiled in 93ms (514 modules)
+ ✓ Compiled in 86ms (514 modules)
+ ✓ Compiled in 84ms (514 modules)
+ ✓ Compiled in 153ms (514 modules)
+ ✓ Compiled in 98ms (514 modules)
+ ✓ Compiled in 138ms (514 modules)
+ ✓ Compiled in 104ms (514 modules)
+ GET /login 200 in 61ms
+ ✓ Compiled /_not-found in 186ms (503 modules)
+ GET /grid.svg 404 in 232ms
+ ⨯ Error: Cannot find module './790.js'
+Require stack:
+- /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/webpack-runtime.js
+- /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/app/_not-found/page.js
+- /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/require.js
+- /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/load-components.js
+- /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/utils.js
+- /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/dev/hot-middleware.js
+- /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/lib/router-server.js
+- /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/lib/start-server.js
+    at Function.<anonymous> (node:internal/modules/cjs/loader:1249:15)
+    at /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/require-hook.js:55:36
+    at Function._load (node:internal/modules/cjs/loader:1075:27)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:219:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1340:12)
+    at mod.require (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:138:16)
+    at __webpack_require__.f.require (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/webpack-runtime.js:198:28)
+    at /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/webpack-runtime.js:111:40
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/webpack-runtime.js:110:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/webpack-runtime.js:162:22)
+    at /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/app/page.js:7:17387
+    at Object.<anonymous> (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/app/page.js:7:17427)
+    at Module._compile (node:internal/modules/cjs/loader:1565:14)
+    at Object..js (node:internal/modules/cjs/loader:1708:10)
+    at Module.load (node:internal/modules/cjs/loader:1318:32)
+    at Function._load (node:internal/modules/cjs/loader:1128:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:219:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1340:12)
+    at mod.require (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:138:16)
+    at requirePage (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/require.js:109:84)
+    at /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/load-components.js:98:84
+    at async loadComponentsImpl (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/load-components.js:98:26)
+    at async DevServer.findPageComponentsImpl (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/next-server.js:709:36)
+    at async DevServer.findPageComponents (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/dev/next-dev-server.js:577:20)
+    at async DevServer.renderPageComponent (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/base-server.js:1894:24)
+    at async DevServer.renderToResponseImpl (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/base-server.js:1946:32)
+    at async DevServer.pipeImpl (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/base-server.js:921:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/base-server.js:817:17)
+    at async /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/lib/router-server.js:173:21)
+    at async handleRequest (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/lib/router-server.js:350:24)
+    at async requestHandlerImpl (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/lib/router-server.js:374:13)
+    at async Server.requestListener (/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/lib/start-server.js:141:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/webpack-runtime.js',
+    '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/app/_not-found/page.js',
+    '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/require.js',
+    '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/load-components.js',
+    '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/utils.js',
+    '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/dev/hot-middleware.js',
+    '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/dev/hot-reloader-webpack.js',
+    '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js',
+    '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/lib/router-server.js',
+    '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/lib/start-server.js'
+  ],
+  page: '/'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 508ms (736 modules)
+ GET / 500 in 595ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 43ms
+[Error: ENOENT: no such file or directory, stat '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/cache/webpack/client-development/2.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/cache/webpack/client-development/2.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/cache/webpack/client-development/2.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/cache/webpack/client-development/2.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/cache/webpack/client-development/2.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/cache/webpack/client-development/2.pack.gz'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/cache/webpack/client-development/2.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, lstat '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server'
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../../.next/server/app/_not-found/page' in /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server for build dependencies doesn't lead to expected result '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/app/_not-found/page.js', but to 'Error: Can't resolve '../../../../.next/server/app/_not-found/page' in '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server'' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../../.next/server/app/_not-found/page (expected /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/app/_not-found/page.js)
+<w>  at file dependencies /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/require.js
+<w>  at file /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/require.js
+<w>  at file dependencies /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/load-components.js
+<w>  at file /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/load-components.js
+<w>  at file dependencies /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/utils.js
+<w>  at file /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/utils.js
+<w>  at file dependencies /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/webpack/loaders/next-route-loader/index.js
+<w>  at file /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/webpack/loaders/next-route-loader/index.js
+<w>  at resolve commonjs /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/webpack/loaders/next-route-loader/index.js
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../../.next/server/pages/_error' in /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server for build dependencies doesn't lead to expected result '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/pages/_error.js', but to 'Error: Can't resolve '../../../../.next/server/pages/_error' in '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server'' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../../.next/server/pages/_error (expected /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/pages/_error.js)
+<w>  at file dependencies /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/require.js
+<w>  at file /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/require.js
+<w>  at file dependencies /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/load-components.js
+<w>  at file /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/load-components.js
+<w>  at file dependencies /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/utils.js
+<w>  at file /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/utils.js
+<w>  at file dependencies /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/webpack/loaders/next-route-loader/index.js
+<w>  at file /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/webpack/loaders/next-route-loader/index.js
+<w>  at resolve commonjs /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/webpack/loaders/next-route-loader/index.js
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../../.next/server/pages/_app' in /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server for build dependencies doesn't lead to expected result '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/pages/_app.js', but to 'Error: Can't resolve '../../../../.next/server/pages/_app' in '/Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server'' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../../.next/server/pages/_app (expected /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/.next/server/pages/_app.js)
+<w>  at file dependencies /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/require.js
+<w>  at file /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/require.js
+<w>  at file dependencies /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/load-components.js
+<w>  at file /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/server/load-components.js
+<w>  at file dependencies /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/utils.js
+<w>  at file /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/utils.js
+<w>  at file dependencies /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/webpack/loaders/next-route-loader/index.js
+<w>  at file /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/webpack/loaders/next-route-loader/index.js
+<w>  at resolve commonjs /Users/psama0214/Hackathon-New/ObservabilityAgent/frontend/node_modules/next/dist/build/webpack/loaders/next-route-loader/index.js
+[?25h

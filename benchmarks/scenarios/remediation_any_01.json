@@ -1,0 +1,13 @@
+{
+  "id": "remediation_any_01",
+  "name": "Remediation suggestions for latency",
+  "family": "remediation",
+  "question": "Why is checkout slow and what should we do?",
+  "service": "checkout-service",
+  "env": "prod",
+  "time_preset": "1h",
+  "expected_root_cause_keywords": [],
+  "expected_evidence_min_count": 0,
+  "required_remediation_min_count": 1,
+  "min_confidence": 0.0
+}
