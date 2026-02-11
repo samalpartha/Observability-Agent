@@ -2,100 +2,536 @@
 
 An AI-powered observability assistant that correlates logs, traces, and metrics, retrieves similar past incidents, and proposes root causes and remediations with evidence links to Kibana/APM.
 
+---
+
 ## Architecture
 
-- **Elasticsearch** (Elastic Cloud): indices for logs, traces, metrics, and incidents with vector search
-- **Hybrid retrieval**: lexical + vector search with RRF fusion
-- **Agent**: deterministic workflow (scope → gather signals → correlate → similar incidents → root cause candidates → remediations) with validation and confidence scoring
-- **Evidence links**: Kibana Discover, APM trace, Metrics dashboard URLs for every finding
+```mermaid
+graph TB
+    subgraph "Frontend Layer"
+        UI["Next.js UI<br/>(React 18, TypeScript)"]
+        Copilot["AI Copilot<br/>(SSE Streaming)"]
+        Analytics["ES|QL Analytics<br/>(Enhanced Error UX)"]
+        Dashboard["Dashboard Views<br/>(Metrics & Charts)"]
+    end
 
-## Repo layout
+    subgraph "API Layer"
+        API["FastAPI Backend<br/>(Python 3.12+)"]
+        Auth["JWT Auth<br/>(Token-based)"]
+        Routes["API Routes<br/>(/debug, /analytics, /ingest)"]
+        Streaming["SSE Stream<br/>(/debug/stream)"]
+    end
 
+    subgraph "Agent Layer"
+        Planner["Deterministic Planner<br/>(Multi-step workflow)"]
+        Tools["Agent Tools<br/>(Query, Correlate, Analyze)"]
+        Confidence["Confidence Scoring<br/>(Evidence-based)"]
+        Validators["Validators<br/>(Citations, Evidence)"]
+    end
+
+    subgraph "Data Layer"
+        ES["Elasticsearch<br/>(Elastic Cloud)"]
+        Logs["Logs Index<br/>(obs-logs-current)"]
+        Traces["Traces Index<br/>(obs-traces-current)"]
+        Metrics["Metrics Index<br/>(obs-metrics-current)"]
+        Incidents["Incidents Index<br/>(obs-incidents-current)"]
+    end
+
+    subgraph "Integration Layer"
+        Embedder["Embedder<br/>(sentence-transformers)"]
+        Hybrid["Hybrid Search<br/>(Lexical + Vector + RRF)"]
+        Rerank["Reranker<br/>(Context relevance)"]
+        Kibana["Kibana Deep Links<br/>(Discover, APM, Cases)"]
+    end
+
+    UI --> API
+    Copilot --> Streaming
+    Analytics --> Routes
+    Dashboard --> Routes
+    
+    API --> Auth
+    API --> Routes
+    Routes --> Planner
+    Streaming --> Planner
+    
+    Planner --> Tools
+    Planner --> Confidence
+    Tools --> Validators
+    
+    Tools --> Hybrid
+    Hybrid --> Embedder
+    Hybrid --> Rerank
+    
+    Embedder --> ES
+    Rerank --> ES
+    ES --> Logs
+    ES --> Traces
+    ES --> Metrics
+    ES --> Incidents
+    
+    Confidence --> Kibana
+    Tools --> Kibana
+
+    style UI fill:#667eea
+    style API fill:#f59e0b
+    style Planner fill:#10b981
+    style ES fill:#06b6d4
+    style Kibana fill:#ec4899
 ```
-/app          - FastAPI app, config, auth
-/ingest       - OTEL config, sample generator, log enricher
-/elastic      - ES client, mappings, bootstrap, ingest pipelines
-/retrieval    - embedder, hybrid query, rerank, evidence links, similar incidents
-/agent        - tools, planner, validators, confidence
-/playbooks    - runbooks, actions catalog
-/api          - routes (debug, ingest), schemas
-/ui           - minimal console (CLI)
-/frontend     - Next.js web UI
-/tests        - hybrid query, evidence, confidence, validators
+
+### Architecture Principles
+
+- **Hybrid Retrieval**: Combines lexical + vector search with RRF (Reciprocal Rank Fusion) for optimal evidence discovery
+- **Deterministic Agent Workflow**: Scope → Gather Signals → Correlate → Similar Incidents → Root Cause → Remediations
+- **Evidence-Based Confidence**: Every finding has a confidence score based on trace/log alignment, similar incidents, and evidence count
+- **Kibana Deep Links**: Direct links to Discover, APM traces, and Metrics dashboards for every finding
+- **Real-time Streaming**: Server-Sent Events (SSE) for live analysis updates to the frontend
+
+---
+
+## Frontend Architecture
+
+### Technology Stack
+
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **API Communication**: Fetch API with SSE streaming
+- **Charts**: Recharts (for analytics visualizations)
+
+### Key Components
+
+#### 1. **AI Copilot** (`app/page.tsx`)
+
+- Real-time query input with autocomplete
+- SSE streaming for live analysis updates
+- Results display with confidence gauge
+- Evidence viewer (logs, traces, metrics)
+- Tabbed interface (Summary, Evidence, Timeline, Actions)
+
+#### 2. **Analytics Dashboard** (`app/components/analytics/`)
+
+- **ES|QL Query Panel**: Interactive Elasticsearch Query Language editor
+  - Syntax highlighting
+  - Enhanced error messages with helpful tips
+  - Query examples and templates
+  - Results table with sorting and filtering
+  - Null value visibility improvements
+- **Dashboards** (Planned): Metrics cards and time-series visualizations
+- **AI Assistant** (Planned): Chat interface within Analytics
+
+#### 3. **Evidence Viewers** (`app/components/evidence/`)
+
+- **LogViewer**: Syntax-highlighted log viewer with filtering
+- **TraceWaterfall**: APM trace visualization with span details
+- **MetricChart**: Time-series charts for metrics correlation
+
+#### 4. **Dashboard View** (`app/components/views/DashboardView.tsx`)
+
+- Service health overview
+- Recent incidents timeline
+- Top errors and performance metrics
+- Quick actions panel
+
+### Frontend Features
+
+✅ **Real-time Analysis**: SSE streaming shows live progress  
+✅ **Enhanced Error UX**: Context-aware tips for ES|QL query errors  
+✅ **Responsive Design**: Works on desktop and tablet  
+✅ **Dark Mode**: Modern dark theme with high contrast  
+✅ **Evidence Links**: Click to open in Kibana/APM  
+✅ **Confidence Visualization**: Circular gauge with color coding  
+
+### Frontend File Structure
+
+### Frontend File Structure
+
+```plaintext
+frontend/
+├── app/
+│   ├── components/
+│   │   ├── analytics/
+│   │   │   ├── AnalyticsView.tsx        # Main analytics page
+│   │   │   └── ESQLQueryPanel.tsx       # ES|QL editor (enhanced)
+│   │   ├── evidence/
+│   │   │   ├── LogViewer.tsx            # Log display
+│   │   │   ├── TraceWaterfall.tsx       # Trace visualization
+│   │   │   └── MetricChart.tsx          # Metrics charts
+│   │   ├── views/
+│   │   │   ├── DashboardView.tsx        # Dashboard overview
+│   │   │   ├── ResultsView.tsx          # Analysis results
+│   │   │   └── CommandBar.tsx           # Quick actions
+│   │   ├── ConfidenceGauge.tsx          # Confidence display
+│   │   ├── LoadingSkeleton.tsx          # Loading states
+│   │   └── Toast.tsx                    # Notifications
+│   ├── hooks/
+│   │   ├── useAnalysis.ts               # SSE streaming hook
+│   │   ├── useObservabilityApi.ts       # API client
+│   │   └── useDashboard.ts              # Dashboard data
+│   ├── store/
+│   │   └── copilotStore.ts              # Zustand state
+│   ├── page.tsx                         # Home (AI Copilot)
+│   └── login/page.tsx                   # Authentication
+├── e2e/                                  # Playwright E2E tests
+└── public/                               # Static assets
 ```
+
+---
+
+## Backend Architecture
+
+### Backend Technology Stack
+
+- **Framework**: FastAPI 0.100+
+- **Language**: Python 3.12+
+- **Database**: Elasticsearch (Elastic Cloud)
+- **Embeddings**: sentence-transformers
+- **LLM**: Gemini (via LiteLLM)
+- **Authentication**: JWT tokens
+
+### API Routes
+
+#### Core Endpoints
+
+##### **POST `/debug`** - Synchronous Analysis
+
+```json
+{
+  "question": "Why is checkout slow?",
+  "service": "payment-api",
+  "environment": "production",
+  "time_range": ["now-1h", "now"]
+}
+```
+
+Returns complete analysis with findings, root causes, and remediations.
+
+##### **POST `/debug/stream`** - Streaming Analysis (SSE)
+
+Same request format, but streams events:
+
+- `event: stage` - Current analysis stage (index 0-5)
+- `event: progress` - Status message updates
+- `event: result` - Final analysis result
+- `event: error` - Error occurred
+
+##### **POST `/esql`** - ES|QL Query Execution
+
+```json
+{
+  "query": "FROM obs-logs-current | WHERE level == \"error\" | STATS count() BY service"
+}
+```
+
+Returns query results or enhanced error messages.
+
+##### **POST `/ingest/logs`** - Log Ingestion
+
+Bulk ingest logs into Elasticsearch with enrichment and embedding.
+
+##### **POST `/ingest/incident`** - Incident Storage
+
+Store resolved incidents for similarity search.
+
+#### Other Endpoints
+
+- **GET `/dashboard/metrics`** - Service health metrics
+- **GET `/cases`** - List Kibana cases
+- **POST `/cases`** - Create Kibana case
+- **GET `/health`** - Health check
+
+### Agent Workflow
+
+```mermaid
+graph LR
+    A[Question] --> B[Scope]
+    B --> C[Gather Signals]
+    C --> D[Correlate Evidence]
+    D --> E[Find Similar Incidents]
+    E --> F[Generate Root Causes]
+    F --> G[Propose Remediations]
+    G --> H[Calculate Confidence]
+    H --> I[Evidence Links]
+    
+    style A fill:#667eea
+    style H fill:#10b981
+    style I fill:#ec4899
+```
+
+#### 1. **Scope** (`agent/planner.py`)
+
+- Parse question and context
+- Determine service, environment, time range
+- Identify data sources needed
+
+#### 2. **Gather Signals** (`agent/tools.py`)
+
+- Query logs for errors and warnings
+- Retrieve traces for latency/failure analysis
+- Fetch metrics for resource utilization
+- Use hybrid search (lexical + vector)
+
+#### 3. **Correlate Evidence** (`retrieval/hybrid_query.py`)
+
+- RRF fusion of lexical and vector results
+- Rerank by relevance to the question
+- Group by correlation (trace ID, service, timestamp)
+
+#### 4. **Similar Incidents** (`retrieval/similar_incidents.py`)
+
+- Vector search in obs-incidents-current
+- Match by symptom similarity
+- Extract previous root causes and fixes
+
+#### 5. **Root Cause Analysis** (`agent/llm.py`)
+
+- LLM (Gemini) analyzes correlated evidence
+- Considers similar incident patterns
+- Generates top 3 root cause candidates
+
+#### 6. **Remediations** (`agent/tools.py`)
+
+- Map root causes to remediation actions
+- Check playbooks/runbooks
+- Prioritize by confidence and impact
+
+#### 7. **Confidence Scoring** (`agent/confidence.py`)
+
+```python
+# Evidence-based confidence calculation
+confidence = (
+    trace_log_alignment * 0.4 +    # Traces match logs
+    similar_incident_score * 0.3 +  # Past incident similarity
+    evidence_count_factor * 0.2 +   # Amount of evidence
+    llm_confidence * 0.1            # LLM self-assessment
+)
+```
+
+#### 8. **Evidence Links** (`elastic/links.py`)
+
+- Generate Kibana Discover URLs
+- Create APM trace deep links
+- Build Metrics dashboard links
+
+### Backend File Structure
+
+```plaintext
+backend/
+├── app/
+│   ├── main.py                   # FastAPI app entry
+│   ├── config.py                 # Configuration
+│   ├── auth.py                   # JWT authentication
+│   └── middleware.py             # CORS, logging
+├── api/
+│   ├── routes_debug.py           # /debug endpoints
+│   ├── routes_stream.py          # /debug/stream SSE
+│   ├── routes_esql.py            # /esql endpoints
+│   ├── routes_ingest.py          # /ingest endpoints
+│   ├── routes_dashboard.py       # /dashboard endpoints
+│   └── schemas.py                # Pydantic models
+├── agent/
+│   ├── planner.py                # Workflow orchestration
+│   ├── tools.py                  # Agent tools (query, correlate)
+│   ├── llm.py                    # LLM integration (Gemini)
+│   ├── confidence.py             # Confidence scoring
+│   └── validators.py             # Output validation
+├── elastic/
+│   ├── client.py                 # ES client wrapper
+│   ├── mappings.py               # Index mappings
+│   ├── pipelines.py              # Ingest pipelines
+│   └── links.py                  # Kibana deep links
+├── retrieval/
+│   ├── embedder.py               # Embedding generation
+│   ├── hybrid_query.py           # Hybrid search + RRF
+│   ├── rerank.py                 # Result reranking
+│   ├── evidence.py               # Evidence extraction
+│   └── similar_incidents.py      # Incident similarity
+└── tests/                        # Unit & integration tests
+```
+
+---
 
 ## Setup
 
-1. **Elastic Cloud**: Create a deployment; set `ELASTIC_CLOUD_ID` and `ELASTIC_API_KEY` (or `ELASTIC_URL` for non-Cloud).
+### Prerequisites
+
+- Python 3.12+
+- Node.js 18+
+- Elasticsearch 8.x (Elastic Cloud recommended)
+- Gemini API key (or compatible LLM via LiteLLM)
+
+### Backend Setup
+
+1. **Elastic Cloud**: Create a deployment; set `ELASTIC_CLOUD_ID` and `ELASTIC_API_KEY`
 2. **Environment**:
+
    ```bash
    cp .env.example .env
-   # Edit ELASTIC_*, EMBEDDING_MODEL, OPENAI_API_KEY (for LiteLLM/agent)
+   # Edit ELASTIC_*, EMBEDDING_MODEL, GEMINI_API_KEY
    ```
-3. **Install**: `pip install -r requirements.txt`
-4. **Bootstrap indices**: On first run, the app ensures indices and aliases exist.
-5. **Run**: `uvicorn app.main:app --reload`
-6. **Optional**: Generate sample data: `python -m ingest.sample_app_generator`
 
-## API
+3. **Install Dependencies**:
 
-- `POST /debug` – question, service, env, time_range → findings, proposed fixes, confidence, evidence links
-- `POST /ingest/incident` – add resolved incident to obs-incidents-current
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-## Frontend (Next.js)
+4. **Bootstrap Indices**: On first run, the app ensures indices and aliases exist
+5. **Run Backend**:
 
-```bash
-cd frontend
-cp .env.local.example .env.local   # set NEXT_PUBLIC_API_URL if backend not on :8765
-npm install
-npm run dev
-```
+   ```bash
+   uvicorn app.main:app --reload --port 8765
+   ```
 
-Open http://localhost:3000 (or 3001). **Log in** with demo credentials, then enter a question and optional service/env; view findings, evidence links, root causes, and proposed fixes.
+6. **Optional - Generate Sample Data**:
 
-### UI/UX (UI/UX Pro Max)
+   ```bash
+   python -m ingest.sample_app_generator
+   ```
 
-Frontend UI/UX follows the **UI/UX Pro Max** skill and the project design system. Design system: `design-system/copilot-observability/MASTER.md`. Cursor rule: `.cursor/rules/ui-ux-pro.mdc` (applies to `frontend/**`). For new pages or design changes, use the skill workflow: design system first, then Next.js + Tailwind implementation and the pre-delivery checklist (contrast, cursor-pointer, transitions, a11y, responsive).
+### Frontend Setup
 
-### Demo login
+1. **Environment**:
 
-| Username | Password |
-|----------|----------|
+   ```bash
+   cd frontend
+   cp .env.local.example .env.local
+   # Set NEXT_PUBLIC_API_URL if backend not on :8765
+   ```
+
+2. **Install Dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+3. **Run Frontend**:
+
+   ```bash
+   npm run dev
+   ```
+
+4. **Access**: Open <http://localhost:3000>
+
+### Demo Login Credentials
+
+| Username | Password  |
+|----------|-----------|
 | **demo** | **demo123** |
 
-Set `DEMO_USER` and `DEMO_PASSWORD` in backend `.env` to change (defaults: demo / demo123).
+_Set `DEMO_USER` and `DEMO_PASSWORD` in backend `.env` to customize_
 
-## Minimal UI (CLI)
+---
+
+## API Usage Examples
+
+### Synchronous Analysis
 
 ```bash
-python -m ui.minimal_console
+curl -X POST http://localhost:8765/debug \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{
+    "question": "Why are payments failing?",
+    "service": "payment-api",
+    "environment": "production",
+    "time_range": ["now-6h", "now"]
+  }'
 ```
 
-Prompts for question and filters; prints findings, evidence links, fix recommendations, and confidence.
+### ES|QL Query
 
-## Tests
+```bash
+curl -X POST http://localhost:8765/esql \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{
+    "query": "FROM obs-logs-current | WHERE level == \"error\" | LIMIT 10"
+  }'
+```
+
+---
+
+## Testing
+
+### Backend Tests
 
 ```bash
 pytest tests/ -v
 ```
 
-## Tech stack
+### Frontend E2E Tests
 
-- **Backend**: FastAPI, LiteLLM (LLM), Elasticsearch, sentence-transformers (embeddings), hybrid search + RRF, rerankers
-- **Agent**: Tools as pure functions; planner runs deterministic workflow; validators enforce citations and evidence count; confidence from rules (trace/log alignment, similar incident score, evidence count)
+```bash
+cd frontend
+npm run test:e2e
+```
 
-## Elastic Agent Builder Hackathon
+---
+
+## Tech Stack Summary
+
+### Frontend
+
+- **Next.js 15** - React framework with App Router
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Utility-first styling
+- **Zustand** - State management
+- **Recharts** - Data visualization
+- **Playwright** - E2E testing
+
+### Backend
+
+- **FastAPI** - High-performance async Python framework
+- **Elasticsearch 8.x** - Search and analytics engine
+- **LiteLLM** - Unified LLM interface (Gemini)
+- **sentence-transformers** - Text embeddings
+- **pytest** - Testing framework
+- **Pydantic** - Data validation
+
+### Integration
+
+- **Hybrid Search** - Lexical + vector with RRF fusion
+- **Reranking** - Context-aware result reordering
+- **Kibana Deep Links** - Direct navigation to evidence
+- **SSE Streaming** - Real-time progress updates
+- **JWT Authentication** - Secure API access
+
+---
+
+## Elasticsearch Agent Builder Hackathon
 
 This project is built for the [Elasticsearch Agent Builder Hackathon](https://elasticsearch.devpost.com/) (Feb 2026). It uses:
 
-- **Elasticsearch** for logs, metrics, traces, and incidents (hybrid search, ES|QL-ready).
-- **Multi-step agent**: scope → gather signals → correlate → similar incidents → root cause → remediations, with tools and confidence scoring.
-- **Create Kibana Case**: from the **Actions** tab, **Create Case** creates an Observability case in Kibana with the run summary, root causes, and evidence links (Kibana Cases API).
-- **Elastic Workflows**: sample workflow YAML in `workflows/observability/` (e.g. fetch logs for a service); import in Kibana under Management → Workflows.
-- **Kibana deep links**: every finding links to Discover or APM; connection uses `KIBANA_URL` and optional `ELASTIC_SPACE_ID`.
+- **Elasticsearch** for logs, metrics, traces, and incidents (hybrid search, ES|QL-ready)
+- **Multi-step agent**: scope → gather signals → correlate → similar incidents → root cause → remediations
+- **Kibana Cases API**: Create Observability cases from the Actions tab with run summary, root causes, and evidence links
+- **Elastic Workflows**: Sample workflow YAML in `workflows/observability/` (import in Kibana under Management → Workflows)
+- **Kibana deep links**: Every finding links to Discover or APM using `KIBANA_URL` and optional `ELASTIC_SPACE_ID`
 
-See **docs/HACKATHON_STRATEGY.md** for judging alignment, demo script, and submission checklist. To enable Create Case, set `KIBANA_URL` and `ELASTIC_API_KEY` in backend `.env`.
+See **docs/HACKATHON_STRATEGY.md** for judging alignment, demo script, and submission checklist.
 
-## Evaluation and benchmarking
+---
 
-We apply evaluation principles from *Benchmarking Autonomous Software Development Agents* (DevAgentBench/DevAgentEval) to our observability agent: task families (root cause, evidence correlation, remediation, case creation), a three-layer metric framework (task success, reliability, operational cost), and a failure-mode taxonomy adapted for observability (problem understanding, planning, context, tool usage, partial change, safety, flakiness, incomplete work, infrastructure). See **docs/EVALUATION_AND_BENCHMARKING.md** for the full mapping and optional ObsAgentBench outline.
+## Evaluation and Benchmarking
+
+We apply evaluation principles from _Benchmarking Autonomous Software Development Agents_ (DevAgentBench/DevAgentEval) to our observability agent:
+
+- **Task families**: Root cause, evidence correlation, remediation, case creation
+- **Three-layer metrics**: Task success, reliability, operational cost
+- **Failure taxonomy**: Problem understanding, planning, context, tool usage, partial change, safety, flakiness, incomplete work, infrastructure
+
+See **docs/EVALUATION_AND_BENCHMARKING.md** for the full framework.
+
+---
+
+## Contributing
+
+This project follows the **UI/UX Pro Max** skill guidelines. See `.cursor/rules/ui-ux-pro.mdc` for design standards and `design-system/copilot-observability/MASTER.md` for the project design system.
+
+---
+
+## License
+
+MIT License - see LICENSE file for details
