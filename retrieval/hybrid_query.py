@@ -57,7 +57,7 @@ def hybrid_query(
     if service:
         must.append({"term": {"service.name": service}})
     if env:
-        must.append({"term": {"env": env}})
+        must.append({"term": {"service.environment": env}})
     bool_filter = {"bool": {"must": must}} if must else {"match_all": {}}
 
     # Lexical over message and labels

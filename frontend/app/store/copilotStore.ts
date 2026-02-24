@@ -4,6 +4,30 @@
  */
 import { create } from "zustand";
 
+// ── localStorage persistence helpers ──
+const LS_HISTORY_KEY = "obs_run_history";
+const LS_PROMPTS_KEY = "obs_saved_prompts";
+const MAX_HISTORY = 50;
+
+function loadFromStorage<T>(key: string, fallback: T): T {
+  if (typeof window === "undefined") return fallback;
+  try {
+    const raw = window.localStorage.getItem(key);
+    return raw ? (JSON.parse(raw) as T) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function saveToStorage<T>(key: string, value: T): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // Storage quota exceeded — silently fail
+  }
+}
+
 // ── Types ──
 
 export type SourceRow = {
@@ -41,7 +65,7 @@ export type DebugResponse = {
   status: string;
   executive_summary: Array<{ text: string; confidence?: number }>;
   findings: Array<{ message?: string; links?: Array<{ label: string; url: string }>; "@timestamp"?: string; "trace.id"?: string }>;
-  proposed_fixes: Array<{ action?: string; risk_level?: string }>;
+  proposed_fixes: Array<{ action?: string; risk_level?: string; reversible?: boolean; safety_note?: string; requires_confirmation?: boolean }>;
   confidence: number;
   confidence_reasons: string[];
   evidence_links: Array<{ label?: string; url?: string }>;
@@ -60,6 +84,7 @@ export type DebugResponse = {
   pipeline_artifacts?: { signals_gathered?: Record<string, number>; signals_total?: number; correlation_score?: number; gather_complete?: boolean; correlate_complete?: boolean; root_cause_complete?: boolean };
   root_cause_states?: Array<{ text: string; state: string }>;
   run_delta?: { signals_added?: number; confidence_delta?: number; missing_resolved?: string[]; root_cause_changed?: boolean };
+  reflection?: { status: string; criticism: string; modifier: number } | null;
 };
 
 export type RealMetrics = {
@@ -135,6 +160,7 @@ interface CopilotState {
   // History
   runHistory: RunRecord[];
   setRunHistory: (v: RunRecord[]) => void;
+  clearHistory: () => void;
   showHistory: boolean;
   setShowHistory: (v: boolean) => void;
   viewingRunId: string | null;
@@ -266,8 +292,16 @@ export const useCopilotStore = create<CopilotState>((set) => ({
   setSourceTestingId: (v) => set({ sourceTestingId: v }),
 
   // History
-  runHistory: [],
-  setRunHistory: (v) => set({ runHistory: v }),
+  runHistory: loadFromStorage<RunRecord[]>(LS_HISTORY_KEY, []),
+  setRunHistory: (v) => {
+    const capped = v.slice(0, MAX_HISTORY);
+    saveToStorage(LS_HISTORY_KEY, capped);
+    set({ runHistory: capped });
+  },
+  clearHistory: () => {
+    saveToStorage(LS_HISTORY_KEY, []);
+    set({ runHistory: [] });
+  },
   showHistory: false,
   setShowHistory: (v) => set({ showHistory: v }),
   viewingRunId: null,
@@ -276,8 +310,11 @@ export const useCopilotStore = create<CopilotState>((set) => ({
   setHistorySearch: (v) => set({ historySearch: v }),
 
   // Saved
-  savedPrompts: [],
-  setSavedPrompts: (v) => set({ savedPrompts: v }),
+  savedPrompts: loadFromStorage<SavedPrompt[]>(LS_PROMPTS_KEY, []),
+  setSavedPrompts: (v) => {
+    saveToStorage(LS_PROMPTS_KEY, v);
+    set({ savedPrompts: v });
+  },
   showSaveModal: false,
   setShowSaveModal: (v) => set({ showSaveModal: v }),
   savePromptName: "",

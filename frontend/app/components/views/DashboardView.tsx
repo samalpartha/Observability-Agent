@@ -1,11 +1,13 @@
 import { useCopilotStore } from "../../store/copilotStore";
 import { useDashboard } from "../../hooks/useDashboard";
+import { useAnalysis } from "../../hooks/useAnalysis";
 import {
     AlertCircleIcon,
     ActivityIcon,
     ServerIcon,
     CheckCircleIcon,
-    SearchIcon
+    SearchIcon,
+    SparklesIcon,
 } from "../Icons";
 
 interface Investigation {
@@ -37,9 +39,40 @@ interface Finding {
 
 export function DashboardView() {
     const { loading } = useDashboard();
+    const { runAnalysis } = useAnalysis();
     const apiInvestigations = useCopilotStore(state => state.apiInvestigations);
     const serviceHealth = useCopilotStore(state => state.serviceHealth);
     const recentFindings = useCopilotStore(state => state.recentFindings);
+    const { setQuestion, setService } = useCopilotStore();
+
+    const handleInvestigate = (inv: Investigation) => {
+        // Pre-populate the question from the investigation title/description
+        const query = `Why is there a ${inv.title.toLowerCase()}?`;
+        setQuestion(query);
+        setService(inv.service || "");
+        runAnalysis({ question: query, service: inv.service, time_range: ["now-1h", "now"] });
+        // Scroll to top so the results view is visible
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const handleAnalyzeFinding = (finding: Finding) => {
+        // Build a smart query from the finding
+        const query = finding.investigate_link
+            ? finding.title
+            : `Investigate: ${finding.title}`;
+        setQuestion(query);
+        runAnalysis({ question: query, time_range: ["now-1h", "now"] });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const handleServiceClick = (svc: ServiceHealth) => {
+        if (svc.status === "OPTIMAL") return;
+        const query = `Why is the ${svc.name} service showing ${svc.percentage}% ${svc.status.toLowerCase()}?`;
+        setQuestion(query);
+        setService(svc.name);
+        runAnalysis({ question: query, service: svc.name, time_range: ["now-1h", "now"] });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
     if (loading && apiInvestigations.length === 0) {
         return (
@@ -55,8 +88,6 @@ export function DashboardView() {
 
     return (
         <div className="w-full max-w-7xl mx-auto p-4 space-y-6 animate-in fade-in duration-500">
-
-            {/* Overview Stats (Optional, could be added later) */}
 
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
@@ -119,8 +150,12 @@ export function DashboardView() {
                                                     <span>TRIGGER: {inv.trigger}</span>
                                                     <span>IMPACT: {inv.impact}</span>
                                                 </div>
-                                                <button className="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-indigo-500/20">
-                                                    View Details
+                                                <button
+                                                    onClick={() => handleInvestigate(inv)}
+                                                    className="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white text-sm font-medium rounded-lg transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2"
+                                                >
+                                                    <SparklesIcon className="w-3.5 h-3.5" />
+                                                    Investigate with AI
                                                 </button>
                                             </div>
                                         </div>
@@ -140,37 +175,46 @@ export function DashboardView() {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {serviceHealth.map((svc: ServiceHealth) => (
-                                <div key={svc.name} className="p-4 rounded-xl bg-slate-900/50 border border-slate-800 hover:bg-slate-800/50 transition-colors">
-                                    <div className="flex justify-between items-center mb-3">
-                                        <div className="flex items-center gap-2">
-                                            <ServerIcon className="w-4 h-4 text-slate-400" />
-                                            <span className="font-medium text-slate-200">{svc.name}</span>
+                            {serviceHealth.map((svc: ServiceHealth) => {
+                                const isDegraded = svc.status !== "OPTIMAL";
+                                return (
+                                    <div
+                                        key={svc.name}
+                                        onClick={() => handleServiceClick(svc)}
+                                        className={`p-4 rounded-xl bg-slate-900/50 border border-slate-800 transition-all ${isDegraded ? "hover:bg-slate-800/50 hover:border-amber-500/30 cursor-pointer" : "cursor-default"}`}
+                                        title={isDegraded ? `Click to investigate ${svc.name}` : undefined}
+                                    >
+                                        <div className="flex justify-between items-center mb-3">
+                                            <div className="flex items-center gap-2">
+                                                <ServerIcon className="w-4 h-4 text-slate-400" />
+                                                <span className="font-medium text-slate-200">{svc.name}</span>
+                                            </div>
+                                            <span className={`px-2 py-0.5 rounded text-xs font-bold ${svc.status === 'OPTIMAL' ? 'bg-emerald-500/10 text-emerald-400' :
+                                                svc.status === 'STABLE' ? 'bg-blue-500/10 text-blue-400' : 'bg-yellow-500/10 text-yellow-400'
+                                                }`}>
+                                                {svc.percentage}% {svc.status}
+                                            </span>
                                         </div>
-                                        <span className={`px-2 py-0.5 rounded textxs font-bold ${svc.status === 'OPTIMAL' ? 'bg-emerald-500/10 text-emerald-400' :
-                                            svc.status === 'STABLE' ? 'bg-blue-500/10 text-blue-400' : 'bg-yellow-500/10 text-yellow-400'
-                                            }`}>
-                                            {svc.percentage}% {svc.status}
-                                        </span>
-                                    </div>
 
-                                    <div className="flex gap-1">
-                                        {svc.instance_health.map((status: string, i: number) => (
-                                            <div
-                                                key={i}
-                                                className={`h-8 flex-1 rounded-sm transition-all hover:scale-105 ${status === 'healthy' ? 'bg-emerald-500/20 hover:bg-emerald-500/40' :
-                                                    status === 'degraded' ? 'bg-yellow-500/20 hover:bg-yellow-500/40' :
-                                                        'bg-red-500/20 hover:bg-red-500/40'
-                                                    }`}
-                                                title={`Instance ${i + 1}: ${status}`}
-                                            ></div>
-                                        ))}
+                                        <div className="flex gap-1">
+                                            {svc.instance_health.map((status: string, i: number) => (
+                                                <div
+                                                    key={i}
+                                                    className={`h-8 flex-1 rounded-sm transition-all hover:scale-105 ${status === 'healthy' ? 'bg-emerald-500/20 hover:bg-emerald-500/40' :
+                                                        status === 'degraded' ? 'bg-yellow-500/20 hover:bg-yellow-500/40' :
+                                                            'bg-red-500/20 hover:bg-red-500/40'
+                                                        }`}
+                                                    title={`Instance ${i + 1}: ${status}`}
+                                                ></div>
+                                            ))}
+                                        </div>
+                                        <div className="mt-2 text-xs text-right text-slate-500">
+                                            {svc.instances} instances
+                                            {isDegraded && <span className="ml-2 text-amber-400">→ Click to investigate</span>}
+                                        </div>
                                     </div>
-                                    <div className="mt-2 text-xs text-right text-slate-500">
-                                        {svc.instances} instances
-                                    </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </section>
 
@@ -206,8 +250,11 @@ export function DashboardView() {
                                         {finding.description}
                                     </p>
                                     {finding.investigate_link && (
-                                        <button className="mt-3 text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-medium">
-                                            ANALYZE FINDING &rarr;
+                                        <button
+                                            onClick={() => handleAnalyzeFinding(finding)}
+                                            className="mt-3 text-xs text-indigo-400 hover:text-indigo-300 active:scale-95 flex items-center gap-1 font-medium transition-all"
+                                        >
+                                            ANALYZE FINDING →
                                         </button>
                                     )}
                                 </div>

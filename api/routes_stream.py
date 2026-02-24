@@ -106,11 +106,19 @@ def debug_stream(
                 "root_cause_complete": out.pipeline_artifacts.root_cause_complete,
             }
 
+            # Strip large raw fields to keep SSE payload under 16KB
+            trimmed_findings = []
+            for f in out.findings[:20]:
+                trimmed = {k: v for k, v in f.items() if k != "raw"}
+                if "message" in trimmed and isinstance(trimmed["message"], str):
+                    trimmed["message"] = trimmed["message"][:300]
+                trimmed_findings.append(trimmed)
+
             result = {
                 "run_id": run_id,
                 "status": "complete",
                 "executive_summary": executive_summary,
-                "findings": out.findings[:50],  # Cap for SSE payload size
+                "findings": trimmed_findings,
                 "proposed_fixes": out.remediations,
                 "confidence": out.confidence.confidence,
                 "confidence_reasons": out.confidence.reasons,
@@ -139,6 +147,9 @@ def debug_stream(
 
             msg_queue.put(("result", result))
         except Exception as e:
+            import traceback
+            import logging
+            logging.getLogger("observability_copilot").error(f"Stream analysis thread crashed: {e}\n{traceback.format_exc()}")
             msg_queue.put(("error", {"message": str(e)}))
         finally:
             msg_queue.put(("done", {}))

@@ -3,12 +3,15 @@ import React from "react";
 import { useCopilotStore } from "../../store/copilotStore";
 import { ConfidenceGauge } from "../../components/ConfidenceGauge";
 import { LoadingSkeleton } from "../../components/LoadingSkeleton";
+import { ErrorBoundary } from "../../components/ErrorBoundary";
+import { MyCasesView } from "./MyCasesView";
 import { ExternalLinkIcon } from "../../components/Icons";
 import { useCaseManagement } from "../../hooks/useCaseManagement";
 import { LogViewer } from "../evidence/LogViewer";
 import { TraceWaterfall } from "../evidence/TraceWaterfall";
 import { MetricChart } from "../evidence/MetricChart";
 import { LogEntry, TraceSpan, MetricPoint } from "../../types/evidence";
+import { RemediationSafetyGate } from "../remediation/RemediationSafetyGate";
 
 export const ResultsView: React.FC = () => {
     const { result, loading, resultTab, setResultTab, activeStep, statusMessage } = useCopilotStore();
@@ -170,37 +173,25 @@ export const ResultsView: React.FC = () => {
                     {resultTab === "actions" && (
                         <div className="space-y-6">
                             <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">Proposed Remediation</h3>
-                            <div className="grid gap-4">
-                                {result.proposed_fixes?.map((fix, i) => {
-                                    const isHighRisk = (fix.risk_level || "").toLowerCase() === "high";
-                                    return (
-                                        <div key={i} className="bg-slate-800/40 rounded-xl p-5 border border-slate-700/50 flex flex-col sm:flex-row gap-4 sm:items-center justify-between group hover:border-slate-600 transition-all">
-                                            <div className="flex items-start gap-4">
-                                                <div className="mt-1 w-8 h-8 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-sm font-bold text-indigo-400 group-hover:bg-indigo-500/20 transition-colors">
-                                                    {i + 1}
-                                                </div>
-                                                <div>
-                                                    <p className="text-slate-200 font-medium mb-1">{fix.action}</p>
-                                                    <div className="flex items-center gap-2">
-                                                        <span className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full border ${isHighRisk ? "bg-red-500/10 text-red-400 border-red-500/20" : "bg-green-500/10 text-green-400 border-green-500/20"}`}>
-                                                            {fix.risk_level || "Low Risk"}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button className="text-xs font-medium bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-1.5 rounded-lg transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
-                                                View Details
-                                            </button>
-                                        </div>
-                                    );
-                                })}
-                            </div>
+                            <RemediationSafetyGate
+                                remediations={(result.proposed_fixes || []).filter(f => !!f.action) as import("../remediation/RemediationSafetyGate").Remediation[]}
+                                reflection={result.reflection ?? undefined}
+                                runId={result.run_id}
+                            />
 
                             <div className="pt-6 border-t border-slate-800">
                                 <CaseCreationSection />
                             </div>
+
+                            <div className="pt-6 border-t border-slate-800">
+                                <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">My Cases</h3>
+                                <ErrorBoundary label="MyCasesView" compact>
+                                    <MyCasesView />
+                                </ErrorBoundary>
+                            </div>
                         </div>
                     )}
+
                 </div>
             </div>
         </div>

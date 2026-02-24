@@ -1,5 +1,6 @@
 """Create Kibana Case from a run (Observability Copilot → Cases)."""
 import os
+import base64
 from typing import Any
 
 import httpx
@@ -11,22 +12,33 @@ router = APIRouter(prefix="", tags=["cases"])
 
 
 def _kibana_cases_url() -> tuple[str, str]:
-    """Return (base_url, api_key). Raises if not configured."""
+    """Return (cases_url, auth_header). Prefers API key, falls back to Basic Auth."""
     kibana_url = (os.environ.get("KIBANA_URL") or "").strip().rstrip("/")
-    api_key = (os.environ.get("ELASTIC_API_KEY") or "").strip()
     space = (os.environ.get("ELASTIC_SPACE_ID") or "default").strip() or "default"
+
     if not kibana_url:
         raise HTTPException(
             status_code=503,
             detail="KIBANA_URL not configured. Set it in .env to create cases.",
         )
-    if not api_key:
-        raise HTTPException(
-            status_code=503,
-            detail="ELASTIC_API_KEY not configured. Required for Kibana Cases API.",
-        )
+
+    # Build auth header: prefer API key, fall back to Basic Auth (username:password)
+    api_key = (os.environ.get("ELASTIC_API_KEY") or "").strip()
+    if api_key:
+        auth_header = f"ApiKey {api_key}"
+    else:
+        username = (os.environ.get("ELASTIC_USERNAME") or "elastic").strip()
+        password = (os.environ.get("ELASTIC_PASSWORD") or "").strip()
+        if not password:
+            raise HTTPException(
+                status_code=503,
+                detail="Neither ELASTIC_API_KEY nor ELASTIC_PASSWORD configured.",
+            )
+        token = base64.b64encode(f"{username}:{password}".encode()).decode()
+        auth_header = f"Basic {token}"
+
     path = f"/s/{space}/api/cases" if space != "default" else "/api/cases"
-    return f"{kibana_url}{path}", api_key
+    return f"{kibana_url}{path}", auth_header
 
 
 @router.post("/cases")
@@ -50,7 +62,7 @@ async def create_case(
         severity = "medium"
     evidence_comment = body.get("evidence_comment") or ""
 
-    url, api_key = _kibana_cases_url()
+    url, auth_header = _kibana_cases_url()
 
     payload = {
         "title": title,
@@ -67,18 +79,16 @@ async def create_case(
         "settings": {"syncAlerts": True},
     }
 
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        resp = await client.post(
-            url,
-            json=payload,
-            headers={
-                "Authorization": f"ApiKey {api_key}",
-                "Content-Type": "application/json",
-                "kbn-xsrf": "true",
-            },
-        )
+    common_headers = {
+        "Authorization": auth_header,
+        "Content-Type": "application/json",
+        "kbn-xsrf": "true",
+    }
 
-        if resp.status_code != 200:
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        resp = await client.post(url, json=payload, headers=common_headers)
+
+        if resp.status_code not in (200, 201):
             try:
                 err = resp.json()
                 msg = err.get("message") or err.get("error") or resp.text
@@ -92,7 +102,10 @@ async def create_case(
         kibana_base = (os.environ.get("KIBANA_URL") or "").strip().rstrip("/")
         space = (os.environ.get("ELASTIC_SPACE_ID") or "default").strip() or "default"
         if kibana_base and case_id:
-            case_url = f"{kibana_base}/s/{space}/app/observability/cases/{case_id}"
+            if space != "default":
+                case_url = f"{kibana_base}/s/{space}/app/observability/cases/{case_id}"
+            else:
+                case_url = f"{kibana_base}/app/observability/cases/{case_id}"
 
         result = {
             "ok": True,
@@ -102,17 +115,74 @@ async def create_case(
         }
 
         if evidence_comment and case_id and kibana_base:
-            add_comment_url = f"{kibana_base}/s/{space}/api/cases/{case_id}/comments" if space != "default" else f"{kibana_base}/api/cases/{case_id}/comments"
+            if space != "default":
+                add_comment_url = f"{kibana_base}/s/{space}/api/cases/{case_id}/comments"
+            else:
+                add_comment_url = f"{kibana_base}/api/cases/{case_id}/comments"
             add_resp = await client.post(
                 add_comment_url,
                 json={"comment": evidence_comment, "type": "user"},
-                headers={
-                    "Authorization": f"ApiKey {api_key}",
-                    "Content-Type": "application/json",
-                    "kbn-xsrf": "true",
-                },
+                headers=common_headers,
             )
-            if add_resp.status_code == 200:
+            if add_resp.status_code in (200, 201):
                 result["comment_added"] = True
 
         return result
+
+
+@router.get("/cases")
+async def list_cases(
+    username: str = Depends(get_current_user),
+) -> dict[str, Any]:
+    """
+    List Kibana Cases for the My Cases view.
+    Returns the most recent 50 cases sorted by updated_at descending.
+    """
+    kibana_url = (os.environ.get("KIBANA_URL") or "").strip().rstrip("/")
+    if not kibana_url:
+        return {"cases": []}
+
+    api_key = (os.environ.get("ELASTIC_API_KEY") or "").strip()
+    if api_key:
+        auth_header = f"ApiKey {api_key}"
+    else:
+        username_es = (os.environ.get("ELASTIC_USERNAME") or "elastic").strip()
+        password = (os.environ.get("ELASTIC_PASSWORD") or "").strip()
+        if not password:
+            return {"cases": []}
+        token = base64.b64encode(f"{username_es}:{password}".encode()).decode()
+        auth_header = f"Basic {token}"
+
+    space = (os.environ.get("ELASTIC_SPACE_ID") or "default").strip() or "default"
+    path = f"/s/{space}/api/cases/_find" if space != "default" else "/api/cases/_find"
+    headers = {
+        "Authorization": auth_header,
+        "Content-Type": "application/json",
+        "kbn-xsrf": "true",
+    }
+
+    try:
+        async with httpx.AsyncClient(timeout=15.0) as client:
+            resp = await client.get(
+                f"{kibana_url}{path}",
+                params={"sortField": "updatedAt", "sortOrder": "desc", "perPage": 50},
+                headers=headers,
+            )
+            if resp.status_code not in (200, 201):
+                return {"cases": [], "error": f"Kibana returned {resp.status_code}"}
+
+            data = resp.json()
+            raw_cases = data.get("cases", [])
+            cases = [
+                {
+                    "id": c.get("id"),
+                    "title": c.get("title"),
+                    "status": c.get("status", "open"),
+                    "created_at": c.get("created_at") or c.get("createdAt", ""),
+                    "updated_at": c.get("updated_at") or c.get("updatedAt", ""),
+                }
+                for c in raw_cases
+            ]
+            return {"cases": cases, "total": data.get("total", len(cases))}
+    except Exception as e:
+        return {"cases": [], "error": str(e)}

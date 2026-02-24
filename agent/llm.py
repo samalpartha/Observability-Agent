@@ -30,8 +30,8 @@ def _get_provider_chain() -> list[tuple[str, str]]:
         "openrouter": (OPENROUTER_API_KEY, "openrouter/meta-llama/llama-3.1-70b-instruct"),
         "mistral": (MISTRAL_API_KEY, "mistral/mistral-large-latest"),
         "cerebras": (CEREBRAS_API_KEY, "cerebras/llama-3.1-70b"),
-        "google": (GOOGLE_API_KEY, "gemini/gemini-1.5-flash"),
-        "gemini": (GOOGLE_API_KEY, "gemini/gemini-1.5-flash"),
+        "google": (GOOGLE_API_KEY, "gemini/gemini-2.0-flash"),
+        "gemini": (GOOGLE_API_KEY, "gemini/gemini-2.0-flash"),
     }
 
     chain: list[tuple[str, str]] = []

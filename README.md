@@ -190,8 +190,8 @@ graph TB
   - Query examples and templates
   - Results table with sorting and filtering
   - Null value visibility improvements
-- **Dashboards** (Planned): Metrics cards and time-series visualizations
-- **AI Assistant** (Planned): Chat interface within Analytics
+- **Dashboards**: Kibana dashboard embedding and iframe integration
+- **AI Assistant**: Natural language data exploration with critic analysis
 
 #### 3. **Evidence Viewers** (`app/components/evidence/`)
 
@@ -214,8 +214,11 @@ graph TB
 ✅ **Dark Mode**: Modern dark theme with high contrast  
 ✅ **Evidence Links**: Click to open in Kibana/APM  
 ✅ **Confidence Visualization**: Circular gauge with color coding  
-
-### Frontend File Structure
+✅ **Error Boundaries**: Graceful error recovery without full-page crashes  
+✅ **localStorage Persistence**: Run history (50 max) and saved prompts survive refresh  
+✅ **My Cases View**: Browse all Kibana Cases from the Actions tab  
+✅ **Clear History**: One-click purge of run history from the History panel  
+✅ **17 Help Flows**: In-app guided workflows for every user action  
 
 ### Frontend File Structure
 
@@ -225,7 +228,9 @@ frontend/
 │   ├── components/
 │   │   ├── analytics/
 │   │   │   ├── AnalyticsView.tsx        # Main analytics page
-│   │   │   └── ESQLQueryPanel.tsx       # ES|QL editor (enhanced)
+│   │   │   ├── ESQLQueryPanel.tsx       # ES|QL editor (enhanced)
+│   │   │   ├── KibanaDashboard.tsx      # Kibana iframe embed
+│   │   │   └── AIDataExplorer.tsx       # NL data explorer
 │   │   ├── evidence/
 │   │   │   ├── LogViewer.tsx            # Log display
 │   │   │   ├── TraceWaterfall.tsx       # Trace visualization
@@ -233,19 +238,33 @@ frontend/
 │   │   ├── views/
 │   │   │   ├── DashboardView.tsx        # Dashboard overview
 │   │   │   ├── ResultsView.tsx          # Analysis results
+│   │   │   ├── MyCasesView.tsx          # Kibana Cases browser
 │   │   │   └── CommandBar.tsx           # Quick actions
+│   │   ├── remediation/
+│   │   │   └── RemediationSafetyGate.tsx # Fix approval UX
 │   │   ├── ConfidenceGauge.tsx          # Confidence display
+│   │   ├── ErrorBoundary.tsx            # React error boundaries
 │   │   ├── LoadingSkeleton.tsx          # Loading states
+│   │   ├── HelpPanel.tsx               # 17 guided workflows
 │   │   └── Toast.tsx                    # Notifications
 │   ├── hooks/
 │   │   ├── useAnalysis.ts               # SSE streaming hook
 │   │   ├── useObservabilityApi.ts       # API client
+│   │   ├── useCaseManagement.ts         # Kibana case creation
 │   │   └── useDashboard.ts              # Dashboard data
 │   ├── store/
-│   │   └── copilotStore.ts              # Zustand state
+│   │   └── copilotStore.ts              # Zustand state (localStorage)
 │   ├── page.tsx                         # Home (AI Copilot)
 │   └── login/page.tsx                   # Authentication
-├── e2e/                                  # Playwright E2E tests
+├── __tests__/
+│   └── e2e/                              # Playwright E2E tests
+│       ├── auth.setup.ts                 # Auth token setup
+│       ├── 02_run_analysis.spec.ts       # AI analysis flow
+│       ├── 03_esql_query.spec.ts         # ES|QL execution
+│       ├── 04_analytics_toggle.spec.ts   # View switching
+│       ├── 05_history_panel.spec.ts      # History panel
+│       └── 06_kibana_case.spec.ts        # Case creation
+├── playwright.config.ts                  # Playwright config
 └── public/                               # Static assets
 ```
 
@@ -556,7 +575,14 @@ backend/
    pip install -r requirements.txt
    ```
 
-4. **Bootstrap Indices**: On first run, the app ensures indices and aliases exist
+4. **Seed Correlated Data** (recommended for demo):
+
+   ```bash
+   python3 scripts/seed_correlated_data.py
+   ```
+
+   This seeds 3 incident scenarios (605 documents) and 5 past incident knowledge records for AI confidence scoring.
+
 5. **Run Backend**:
 
    ```bash
@@ -603,6 +629,197 @@ _Set `DEMO_USER` and `DEMO_PASSWORD` in backend `.env` to customize_
 
 ---
 
+## Quick Start
+
+Get the AI Copilot analyzing your data in 3 steps:
+
+### Step 1: Create Elastic Cloud Deployment
+
+1. Sign up for [Elastic Cloud](https://cloud.elastic.co/) (free trial available)
+2. Create a new deployment (Elasticsearch + Kibana)
+3. Copy your **Cloud ID** and **API Key** from the deployment page
+
+### Step 2: Configure Environment Variables
+
+```bash
+# Backend .env
+ELASTIC_CLOUD_ID="your-deployment:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvJDU=..."
+ELASTIC_API_KEY="your-base64-encoded-api-key"
+GOOGLE_API_KEY="your-gemini-api-key"
+KIBANA_URL="https://your-deployment.kb.us-central1.gcp.cloud.es.io"
+```
+
+### Step 3: Populate Correlated Data
+
+Run the correlated data seeder to create realistic incident scenarios:
+
+```bash
+# Generate 3 incident scenarios with shared trace IDs
+python3 scripts/seed_correlated_data.py
+```
+
+This creates:
+
+- **3 incident scenarios**: DB pool exhaustion, memory leak OOM, circuit breaker
+- **605 documents** with correlated logs, traces, and metrics per incident
+- **5 past incidents** in the knowledge base for similar-incident recall
+- **500 background noise** logs for realistic search results
+
+🎉 **You're ready!** Start the backend and frontend, then ask: _"Why is payment service down?"_
+
+---
+
+## Sample Output
+
+Here's what the AI Copilot returns when analyzing a production issue:
+
+```json
+{
+  "question": "Why is checkout slow?",
+  "confidence": 0.87,
+  "findings": [
+    {
+      "type": "root_cause",
+      "title": "Database Connection Pool Exhaustion",
+      "description": "Payment-service database connection pool maxed out at 50 connections, causing 2-5 second delays",
+      "confidence": 0.92,
+      "evidence_count": 23,
+      "kibana_link": "https://kibana.elastic.co/app/discover#/?_a=(filters:!(...))"
+    },
+    {
+      "type": "contributing_factor", 
+      "title": "Retry Storm from payment-api",
+      "description": "Failed payment requests triggered exponential retry logic, amplifying connection usage by 4x",
+      "confidence": 0.85,
+      "evidence_count": 17,
+      "kibana_link": "https://kibana.elastic.co/app/apm/services/payment-api/traces"
+    }
+  ],
+  "remediations": [
+    {
+      "action": "Increase connection pool size",
+      "details": "Raise max_connections from 50 to 150 in payment-service database config",
+      "priority": "high",
+      "estimated_fix_time": "5 minutes"
+    },
+    {
+      "action": "Implement circuit breaker",
+      "details": "Add circuit breaker to payment-api with 3-retry limit and 30s cooldown",
+      "priority": "medium",
+      "estimated_fix_time": "2 hours"
+    }
+  ],
+  "similar_incidents": [
+    {
+      "incident_id": "INC-2024-0847",
+      "similarity_score": 0.94,
+      "title": "Database pool saturation during Black Friday",
+      "resolution": "Increased pool + added HikariCP metrics",
+      "resolved_at": "2024-11-29T14:23:00Z"
+    }
+  ],
+  "evidence": {
+    "logs": 23,
+    "traces": 15,
+    "metrics": 8
+  },
+  "analysis_duration_ms": 1847
+}
+```
+
+### Key Features Demonstrated
+
+✅ **Evidence-based confidence scores** (0.87 overall, 0.92 for top finding)  
+✅ **Multiple root causes** with separate confidence levels  
+✅ **Actionable remediations** with priority and time estimates  
+✅ **Similar past incidents** using vector similarity search  
+✅ **Kibana deep links** to explore evidence in detail  
+✅ **Fast analysis** (~2 seconds for full investigation)  
+
+---
+
+## Demo Walkthrough
+
+### Repository Structure Overview
+
+```plaintext
+ObservabilityAgent/
+├── frontend/              # Next.js UI with AI Copilot
+│   ├── app/
+│   │   ├── page.tsx      # ⭐ Main AI Copilot interface
+│   │   ├── components/
+│   │   │   ├── analytics/
+│   │   │   │   ├── KibanaDashboard.tsx      # Kibana dashboard embed
+│   │   │   │   └── AIDataExplorer.tsx       # Natural language queries
+│   │   │   └── views/
+│   │   │       └── ResultsView.tsx          # Analysis results display
+│   │   └── hooks/
+│   │       └── useAnalysis.ts               # SSE streaming hook
+│   └── public/
+│       └── logo.png                         # Professional app logo
+├── backend/
+│   ├── app/main.py                          # FastAPI application
+│   ├── api/
+│   │   ├── routes_stream.py                 # ⭐ SSE streaming endpoint
+│   │   └── routes_esql.py                   # ES|QL query execution
+│   ├── agent/
+│   │   ├── planner.py                       # ⭐ Multi-step agent workflow
+│   │   ├── confidence.py                    # Evidence-based scoring
+│   │   └── tools.py                         # Query, correlate, analyze
+│   ├── retrieval/
+│   │   ├── hybrid_query.py                  # ⭐ Lexical + Vector + RRF
+│   │   └── similar_incidents.py             # Past incident matching
+│   └── elastic/
+│       ├── client.py                        # Elasticsearch wrapper
+│       └── links.py                         # Kibana deep link generator
+└── scripts/
+    ├── seed_correlated_data.py            # ⭐ Correlated data seeder
+    └── populate_sample_data.py            # Legacy sample generator
+```
+
+### End-to-End Flow Demo
+
+1. **User asks question**: _"Why is checkout slow?"_  
+   → Frontend: `app/page.tsx` captures input
+
+2. **SSE streaming initiated**: `POST /debug/stream`  
+   → Backend: `routes_stream.py` starts agent workflow
+
+3. **Agent orchestration**: 6-step deterministic plan  
+   → `agent/planner.py` executes: Scope → Gather → Correlate → Similar → RCA → Remediate
+
+4. **Hybrid retrieval**: Combines lexical + vector search  
+   → `retrieval/hybrid_query.py` uses RRF to merge results
+
+5. **Evidence correlation**: Groups logs/traces by trace_id  
+   → `agent/tools.py` correlate_evidence() finds patterns
+
+6. **Similar incidents**: Vector search in past resolutions  
+   → `retrieval/similar_incidents.py` finds INC-2024-0847 (94% match)
+
+7. **Confidence scoring**: Evidence-based calculation  
+   → `agent/confidence.py` weighs trace alignment (40%), similarity (30%), evidence count (20%), LLM (10%)
+
+8. **Results streaming**: Real-time progress updates  
+   → Frontend: `useAnalysis.ts` hook displays live stages
+
+9. **Kibana links generated**: Deep links to evidence  
+   → `elastic/links.py` creates Discover/APM URLs
+
+10. **Results displayed**: Interactive UI with tabs  
+    → `ResultsView.tsx` shows Summary, Evidence, Timeline, Actions
+
+### Key Demo Points
+
+🎯 **Multi-step Agent**: Deterministic workflow with 6 analysis stages  
+🎯 **Hybrid Search**: RRF fusion of BM25 + vector embeddings  
+🎯 **Evidence-based**: Every finding backed by logs/traces/metrics  
+🎯 **Past Incident Learning**: Vector similarity to resolved issues  
+🎯 **Real-time UX**: SSE streaming shows progress, not just final result  
+🎯 **Kibana Integration**: Deep links take you directly to evidence  
+
+---
+
 ## API Usage Examples
 
 ### Synchronous Analysis
@@ -637,15 +854,26 @@ curl -X POST http://localhost:8765/esql \
 ### Backend Tests
 
 ```bash
-pytest tests/ -v
+pytest tests/ -x --tb=short -q
 ```
 
-### Frontend E2E Tests
+### Frontend E2E Tests (Playwright)
 
 ```bash
 cd frontend
-npm run test:e2e
+npx playwright install chromium  # first time only
+npx playwright test
 ```
+
+### CI/CD Pipeline
+
+A GitHub Actions workflow (`.github/workflows/ci.yml`) runs automatically on every push to `main`/`develop` and on PRs:
+
+| Job | What it runs |
+|---|---|
+| **backend** | `pytest` (Python 3.11) |
+| **frontend** | `npm run lint` + `tsc --noEmit` + `npm run build` (Node 20) |
+| **e2e** | Playwright Chromium tests with HTML report artifact |
 
 ---
 

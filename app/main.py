@@ -56,6 +56,7 @@ from api.routes_ingest import router as ingest_router
 from api.routes_metrics import router as metrics_router
 from api.routes_scope import router as scope_router
 from api.routes_stream import router as stream_router
+from api.routes_analytics import router as analytics_router
 from app.auth import get_current_user
 from elastic.client import build_client, health_check
 from elastic.index_bootstrap import bootstrap
@@ -141,6 +142,7 @@ app.include_router(debug_router)
 app.include_router(ingest_router)
 app.include_router(metrics_router)
 app.include_router(stream_router)
+app.include_router(analytics_router, prefix="/api")
 
 
 def _check_one_source(client, alias: str) -> tuple[str, str | None]:

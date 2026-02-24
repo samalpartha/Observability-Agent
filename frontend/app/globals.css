@@ -2,7 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design system: Copilot Observability — Dark Theme */
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --radius: 0.5rem;
+  }
+}
+
 :root {
   --color-primary: #818CF8;
   --color-secondary: #A5B4FC;
@@ -13,28 +37,12 @@
   --color-border: rgba(148, 163, 184, 0.12);
   --color-surface: #1A1A2E;
   --color-surface-elevated: #232340;
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  --space-2xl: 3rem;
-  --space-3xl: 4rem;
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px rgba(129, 140, 248, 0.15);
-  --radius: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.25rem;
-  /* Severity */
+  /* severity */
   --critical: #F87171;
   --high: #FB923C;
   --medium: #FBBF24;
   --low: #34D399;
-  /* Accent gradients */
+  /* accent gradients */
   --gradient-primary: linear-gradient(135deg, #6366F1, #818CF8);
   --gradient-cta: linear-gradient(135deg, #10B981, #34D399);
   --gradient-hero: linear-gradient(135deg, #0F0F1A 0%, #1A1A2E 40%, #1E1B4B 100%);
@@ -57,7 +65,10 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+
+    *,
+    *::before,
+    *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
@@ -65,17 +76,48 @@
   }
 
   /* Scrollbar */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.35); }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.2);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.35);
+  }
 }
 
 /* Typography */
-.text-title { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; }
-.text-section { font-size: 0.9375rem; font-weight: 600; letter-spacing: -0.005em; }
-.text-body { font-size: 0.875rem; line-height: 1.5; }
-.text-caption { font-size: 0.75rem; color: var(--color-muted); line-height: 1.4; }
+.text-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.text-section {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+.text-body {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.text-caption {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  line-height: 1.4;
+}
 
 /* Cards: glass-morphism */
 .card {
@@ -88,16 +130,32 @@
   box-shadow: var(--shadow-md);
   transition: box-shadow 250ms ease, border-color 250ms ease;
 }
+
 .card:hover {
   box-shadow: var(--shadow-lg);
   border-color: rgba(129, 140, 248, 0.2);
 }
 
 /* Severity chips */
-.severity-critical { background: rgba(248, 113, 113, 0.15); color: var(--critical); }
-.severity-high { background: rgba(251, 146, 60, 0.15); color: var(--high); }
-.severity-medium { background: rgba(251, 191, 36, 0.15); color: var(--medium); }
-.severity-low { background: rgba(52, 211, 153, 0.15); color: var(--low); }
+.severity-critical {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--critical);
+}
+
+.severity-high {
+  background: rgba(251, 146, 60, 0.15);
+  color: var(--high);
+}
+
+.severity-medium {
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--medium);
+}
+
+.severity-low {
+  background: rgba(52, 211, 153, 0.15);
+  color: var(--low);
+}
 
 /* Buttons */
 .btn-primary {
@@ -112,10 +170,12 @@
   border: none;
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
+
 .btn-primary:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
 }
+
 .btn-secondary {
   background: transparent;
   color: var(--color-primary);
@@ -127,6 +187,7 @@
   transition: all 200ms ease;
   cursor: pointer;
 }
+
 .btn-secondary:hover {
   background: rgba(129, 140, 248, 0.1);
   border-color: var(--color-primary);
@@ -136,6 +197,7 @@
 .input-focus {
   transition: border-color 200ms ease, box-shadow 200ms ease;
 }
+
 .input-focus:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
@@ -143,16 +205,32 @@
 
 /* Pulse animation for live indicator */
 @keyframes pulse-live {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
 }
-.animate-pulse-live { animation: pulse-live 2s ease-in-out infinite; }
+
+.animate-pulse-live {
+  animation: pulse-live 2s ease-in-out infinite;
+}
 
 /* Shimmer loader */
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
+
 .shimmer {
   background: linear-gradient(90deg, transparent 30%, rgba(129, 140, 248, 0.08) 50%, transparent 70%);
   background-size: 200% 100%;
@@ -161,10 +239,20 @@
 
 /* Slide-in from right for Help panel */
 @keyframes slideInRight {
-  from { transform: translateX(100%); opacity: 0.8; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(100%);
+    opacity: 0.8;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
-.animate-slide-in { animation: slideInRight 250ms ease-out forwards; }
+
+.animate-slide-in {
+  animation: slideInRight 250ms ease-out forwards;
+}
 
 /* Focus visible utility for keyboard navigation */
 .focus-visible-ring:focus-visible {
@@ -185,6 +273,7 @@
   white-space: nowrap;
   border-width: 0;
 }
+
 .sr-only-focusable:focus {
   position: fixed;
   top: 0;

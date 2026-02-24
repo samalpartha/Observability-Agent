@@ -1,28 +1,42 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const API_URL = process.env.API_URL ?? "http://127.0.0.1:8765";
-const FRONTEND_URL = process.env.FRONTEND_URL ?? "http://localhost:3001";
-
 export default defineConfig({
-  testDir: "./e2e",
-  fullyParallel: false, // sequential so tests can share auth state
+  testDir: "./__tests__/e2e",
+  fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: 1, // 1 retry always — SSE streaming can cause minor timing variance
-  workers: 1,
-  reporter: [["list"], ["html", { open: "never" }]],
-  timeout: 90_000,
-  expect: { timeout: 15_000 },
+  retries: process.env.CI ? 1 : 0,
+  workers: process.env.CI ? 2 : undefined,
+  reporter: [["html", { open: "never" }], ["list"]],
+
   use: {
-    baseURL: FRONTEND_URL,
+    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3001",
     trace: "on-first-retry",
     screenshot: "only-on-failure",
-    video: "retain-on-failure",
+    video: "on-first-retry",
+    // Bypass login for E2E tests by injecting a cookie/localStorage token
+    storageState: "./__tests__/e2e/auth.json",
   },
+
   projects: [
+    // Setup: login once and save storage state
+    {
+      name: "setup",
+      testMatch: /.*auth\.setup\.ts/,
+      use: { ...devices["Desktop Chrome"] },
+    },
+    // Main E2E tests use the saved auth state
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
+      dependencies: ["setup"],
     },
   ],
-  // Don't start webServer — we assume both servers are running
+
+  // Auto-start Next.js dev server if not already running
+  webServer: {
+    command: "npm run dev -- --port 3001",
+    port: 3001,
+    reuseExistingServer: true,
+    timeout: 60_000,
+  },
 });

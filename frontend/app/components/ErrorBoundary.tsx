@@ -1,59 +1,87 @@
 "use client";
-
-import { Component, ReactNode } from "react";
+/**
+ * ErrorBoundary — catches unhandled React render errors.
+ * Wrap any major panel to prevent blank-page crashes.
+ *
+ * Usage:
+ *   <ErrorBoundary label="ResultsView">
+ *     <ResultsView />
+ *   </ErrorBoundary>
+ */
+import React from "react";
 
 interface Props {
-  children: ReactNode;
-  fallback?: ReactNode;
+  children: React.ReactNode;
+  label?: string;
+  compact?: boolean; // compact=true → small inline error card
 }
 
 interface State {
-  hasError: boolean;
   error: Error | null;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { hasError: false, error: null };
-  }
+export class ErrorBoundary extends React.Component<Props, State> {
+  state: State = { error: null };
 
   static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error };
+    return { error };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error("[ErrorBoundary] Caught error:", error, errorInfo);
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    console.error(`[ErrorBoundary: ${this.props.label ?? "unknown"}]`, error, info.componentStack);
   }
+
+  handleReset = () => this.setState({ error: null });
 
   render() {
-    if (this.state.hasError) {
-      if (this.props.fallback) return this.props.fallback;
+    const { error } = this.state;
+    const { children, label = "Component", compact = false } = this.props;
+    if (!error) return children;
 
+    if (compact) {
       return (
-        <div className="min-h-[200px] flex items-center justify-center p-8" role="alert">
-          <div className="text-center max-w-md">
-            <div className="w-12 h-12 rounded-full bg-danger/10 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-danger" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-semibold text-foreground mb-2">Something went wrong</h3>
-            <p className="text-sm text-muted mb-4">
-              {this.state.error?.message || "An unexpected error occurred."}
-            </p>
-            <button
-              type="button"
-              onClick={() => this.setState({ hasError: false, error: null })}
-              className="px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 cursor-pointer transition-colors"
-            >
-              Try again
-            </button>
-          </div>
+        <div className="rounded-lg border border-red-500/30 bg-red-950/20 p-3 text-xs text-red-400 flex items-center gap-2">
+          <span className="shrink-0 text-base">⚠️</span>
+          <span>{label} failed to render</span>
+          <button
+            onClick={this.handleReset}
+            className="ml-auto shrink-0 text-xs underline hover:text-red-300"
+          >
+            retry
+          </button>
         </div>
       );
     }
 
-    return this.props.children;
+    return (
+      <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-red-500/20 bg-red-950/10 p-8 text-center">
+        <div className="text-4xl">🚨</div>
+        <div>
+          <p className="text-base font-semibold text-red-400">
+            {label} encountered an error
+          </p>
+          <p className="mt-1 text-sm text-slate-400">
+            This component crashed unexpectedly. The rest of the app is still
+            running.
+          </p>
+        </div>
+        <details className="w-full max-w-lg text-left">
+          <summary className="cursor-pointer text-xs text-slate-500 hover:text-slate-300">
+            Show error details
+          </summary>
+          <pre className="mt-2 overflow-x-auto rounded bg-black/40 p-3 text-xs text-red-300">
+            {error.message}
+            {"\n"}
+            {error.stack?.split("\n").slice(1, 6).join("\n")}
+          </pre>
+        </details>
+        <button
+          onClick={this.handleReset}
+          className="rounded-lg bg-red-600/20 px-4 py-2 text-sm text-red-400 hover:bg-red-600/30 border border-red-500/30 transition-colors"
+        >
+          Try again
+        </button>
+      </div>
+    );
   }
 }

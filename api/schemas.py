@@ -83,3 +83,13 @@ class IngestIncidentRequest(BaseModel):
     tags: list[str] = Field(default_factory=list)
     service_name: Optional[str] = None
     env: Optional[str] = None
+
+
+class AIQueryRequest(BaseModel):
+    query: str = Field(..., min_length=1)
+
+
+class AIQueryResponse(BaseModel):
+    response: str
+    reflection: Optional[dict[str, Any]] = None
+    trace: list[str] = Field(default_factory=list) # Execution Trace for transparency

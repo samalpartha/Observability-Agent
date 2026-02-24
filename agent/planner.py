@@ -16,15 +16,19 @@ from typing import Any, Optional
 
 from agent.confidence import ConfidenceResult, compute_confidence_elastic
 from agent.resilience import logger, sanitize_user_input
-from agent.tools import (
+from agent.tools.tools import (
+    ToolResult,
     tool_find_changes,
     tool_find_similar_incidents,
     tool_propose_fix,
     tool_search_logs,
     tool_search_metrics,
     tool_search_traces,
+    tool_reflect_and_critique,  # [NEW]
 )
 from agent.validators import validate_before_propose
+from agent.specialists.visual_agent import tool_physical_health_check
+from agent.tools.notifier import tool_notify_incident
 
 
 # ── Attempt tracker per scope fingerprint ──
@@ -73,16 +77,17 @@ class PlannerInput:
 @dataclass
 class PlannerOutput:
     scope: dict[str, Any]
-    findings: list[dict]
-    similar_incidents: list[dict]
+    findings: list[dict[str, Any]]
+    similar_incidents: list[dict[str, Any]]
     root_cause_candidates: list[str]
-    remediations: list[dict]  # [{action, risk_level}, ...]
+    remediations: list[dict[str, Any]]
     confidence: ConfidenceResult
-    evidence_links: list[dict]
+    evidence_links: list[dict[str, str]]
     # FIX #3: attempt state
     attempt_number: int = 1
     attempt_message: str = ""
     missing_signals: list[str] = field(default_factory=list)
+    reflection: Optional[dict[str, Any]] = None  # [NEW] Critic's evaluation
     # FIX #4: pipeline artifacts
     pipeline_artifacts: PipelineArtifacts = field(default_factory=PipelineArtifacts)
     # FIX #8: root cause states
@@ -281,6 +286,22 @@ def run_planner(inputs: PlannerInput) -> PlannerOutput:
     if progress_callback:
         progress_callback("Gathering signals from Logs, Traces, and Metrics...")
 
+    findings = []
+    
+    # [NEW] Physical Health Check (Winning Hackathon Feature)
+    if progress_callback:
+        progress_callback("Running physical hardware safety check (OpenCV)...")
+    physical_res = tool_physical_health_check()
+    if physical_res["status"] == "alert":
+        if progress_callback:
+            progress_callback(f"🔴 PHYSICAL ALERT: {physical_res['detected_signal']}")
+        findings.append({
+            "message": f"Physical Anomaly Detected: {physical_res['detected_signal']}",
+            "severity": "critical",
+            "source": "opencv",
+            "links": []
+        })
+
     log_res = tool_search_logs(inputs.question, filters)
     if progress_callback:
         progress_callback(f"Found {len(log_res.evidence)} relevant log entries.")
@@ -297,7 +318,6 @@ def run_planner(inputs: PlannerInput) -> PlannerOutput:
     if progress_callback:
         progress_callback(f"Checked for recent deployments: found {len(changes_res.evidence)}.")
 
-    findings = []
     for r in [log_res, trace_res, metrics_res]:
         findings.extend(r.evidence)
     findings.extend(changes_res.evidence)
@@ -324,7 +344,7 @@ def run_planner(inputs: PlannerInput) -> PlannerOutput:
     # ══════ STEP 3: Correlate (gated: requires signals) ══════
     if progress_callback:
         progress_callback("Correlating events across signals...")
-        trace_ids = {f.get("trace.id") for f in findings if f.get("trace.id")}
+    trace_ids = {f.get("trace.id") for f in findings if f.get("trace.id")}
     if trace_ids:
         scope["correlated_trace_ids"] = list(trace_ids)
         artifacts.correlated_trace_ids = list(trace_ids)
@@ -390,8 +410,6 @@ def run_planner(inputs: PlannerInput) -> PlannerOutput:
     artifacts.hypothesis_list = root_cause_states
 
     # ══════ STEP 6: Remediations (gated by root cause state) ══════
-    
-    # ══════ STEP 6: Remediations (gated by root cause state) ══════
     # FIX #8: Only propose remediations if at least one candidate is 'probable' or 'confirmed'
     best_state = "observed"
     for s in root_cause_states:
@@ -408,13 +426,47 @@ def run_planner(inputs: PlannerInput) -> PlannerOutput:
         ok, validation_errors = validate_before_propose(findings, similar_incidents, claims)
         if ok:
             fix_res = tool_propose_fix(findings, similar_incidents)
-            remediations = [{"action": e.get("proposed_action", ""), "risk_level": e.get("risk_level", "medium")} for e in fix_res.evidence[:3]]
+            def _enrich_remediation(e: dict) -> dict:
+                action = e.get("proposed_action", "")
+                risk = e.get("risk_level", "medium")
+                # Determine reversibility from action text heuristics
+                irreversible_keywords = ["delete", "drop", "purge", "remove", "kill", "terminate", "destroy", "flush"]
+                is_irreversible = any(kw in action.lower() for kw in irreversible_keywords)
+                safety_note = (
+                    "⚠️ This action is potentially irreversible. Review carefully before executing."
+                    if is_irreversible else
+                    "✅ This action is likely safe and reversible."
+                )
+                return {
+                    "action": action,
+                    "risk_level": risk,
+                    "reversible": not is_irreversible,
+                    "safety_note": safety_note,
+                    "requires_confirmation": risk in ("high", "critical") or is_irreversible,
+                }
+            remediations = [_enrich_remediation(e) for e in fix_res.evidence[:3]]
+            
+            # [NEW] Real-time Notification for Critical/High severity (Twilio/SMTP)
+            if any(f.get("severity") == "critical" for f in findings):
+                if progress_callback:
+                    progress_callback("Sending critical real-time alerts (Twilio/WhatsApp)...")
+                summary = remediations[0]["action"] if remediations else "Critical incident detected"
+                tool_notify_incident(severity="critical", summary=summary, details=f"Correlated findings: {len(findings)}")
         else:
             remediations = [{"action": "Gather more evidence before applying fix", "risk_level": "low"}]
     elif best_state == "correlated":
         remediations = [{"action": "Gather more evidence to confirm hypothesis", "risk_level": "low"}]
     else:
         remediations = [{"action": "Broaden scope or add missing signal sources", "risk_level": "low"}]
+
+    # ══════ STEP 7: Reflection (Critic Loop) ══════
+    reflection = None
+    if best_state in ("probable", "confirmed") and remediations:
+        if progress_callback:
+            progress_callback("Critic Agent is reviewing the diagnosis...")
+        reflection = tool_reflect_and_critique(findings, remediations)
+        if progress_callback:
+            progress_callback(f"Reflection complete: {reflection.get('status', 'Logical')}")
 
     # ══════ Closure memory matching ══════
     closure_match_score, matched_closure = _match_closures(inputs.question, inputs.service, findings)
@@ -531,6 +583,7 @@ def run_planner(inputs: PlannerInput) -> PlannerOutput:
         attempt_number=attempt_number,
         attempt_message=attempt_message,
         missing_signals=missing_signals,
+        reflection=reflection,  # [NEW]
         pipeline_artifacts=artifacts,
         root_cause_states=root_cause_states,
         run_delta=run_delta,

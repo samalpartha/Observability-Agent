@@ -322,3 +322,43 @@ Context: {str(context)[:500]}
     evidence = [{"step": i, "description": s} for i, s in enumerate(["Verify scope", "Apply fix", "Validate", "Monitor"], 1)]
     return ToolResult(summary=summary, evidence=evidence,
                      raw_payload={"proposed_fix": proposed_fix[:100], "context_keys": list(context.keys())})
+def tool_reflect_and_critique(findings: list[dict], recommendations: list[dict]) -> dict[str, Any]:
+    """
+    Critic Agent: Evaluates the current diagnostic path and looks for contradictions or missing data.
+    """
+    from agent.llm import llm_complete
+
+    findings_summary = "\n".join([f.get("message", "") for f in findings[:10]])
+    remed_summary = "\n".join([r.get("action", "") for r in recommendations])
+    
+    prompt = f"""You are a Lead SRE Critic. Review these observability findings and the proposed remediations.
+Your goal is to find gaps, identify if the AI is being too simplistic, or confirm if the path is correct.
+
+Findings:
+{findings_summary}
+
+Proposed Actions:
+{remed_summary}
+
+Respond in the following format:
+Status: [Needs More Data | Contradictory | Logical]
+Criticism: <detailed analysis of why the plan might fail or what is missing>
+Confidence Modifier: <percentage change, e.g., +10% or -20%>
+"""
+    out = llm_complete(prompt, system="You are a skeptical Lead SRE who prefers deep investigation over quick fixes.")
+    
+    if not out:
+        return {"status": "Logical", "criticism": "No criticism available.", "modifier": 0}
+        
+    # Simple parser
+    res = {"status": "Logical", "criticism": out, "modifier": 0}
+    for line in out.split("\n"):
+        if line.startswith("Status:"):
+            res["status"] = line.split("Status:")[1].strip()
+        if "Confidence Modifier:" in line:
+            mod_str = line.split("Confidence Modifier:")[1].strip().replace("%", "")
+            try:
+                res["modifier"] = int(mod_str)
+            except:
+                pass
+    return res

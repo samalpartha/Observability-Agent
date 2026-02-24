@@ -46,16 +46,28 @@ export function useAnalysis() {
                 const { done, value } = await reader.read();
                 if (done) break;
                 buffer += decoder.decode(value, { stream: true });
-                const lines = buffer.split("\n");
-                buffer = lines.pop() || "";
 
-                let eventType = "";
-                for (const line of lines) {
-                    if (line.startsWith("event: ")) {
-                        eventType = line.slice(7).trim();
-                    } else if (line.startsWith("data: ") && eventType) {
+                // SSE events are delimited by double newlines
+                let boundary = buffer.indexOf("\n\n");
+                while (boundary !== -1) {
+                    const rawEvent = buffer.slice(0, boundary);
+                    buffer = buffer.slice(boundary + 2);
+
+                    let eventType = "";
+                    let dataStr = "";
+                    for (const line of rawEvent.split("\n")) {
+                        if (line.startsWith("event: ")) {
+                            eventType = line.slice(7).trim();
+                        } else if (line.startsWith("data: ")) {
+                            dataStr += line.slice(6);
+                        } else if (line.startsWith(":")) {
+                            // comment / keepalive, ignore
+                        }
+                    }
+
+                    if (eventType && dataStr) {
                         try {
-                            const eventData = JSON.parse(line.slice(6));
+                            const eventData = JSON.parse(dataStr);
                             if (eventType === "stage" && typeof eventData.index === "number") {
                                 setActiveStep(eventData.index);
                             } else if (eventType === "progress") {
@@ -68,10 +80,12 @@ export function useAnalysis() {
                                 throw new Error(eventData.message || "Analysis failed");
                             }
                         } catch (e) {
+                            if (eventType === "error") throw e;
                             console.error("SSE Parse Error", e);
                         }
-                        eventType = "";
                     }
+
+                    boundary = buffer.indexOf("\n\n");
                 }
             }
 
