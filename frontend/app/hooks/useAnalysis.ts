@@ -5,7 +5,8 @@ import { useCopilotStore } from "../store/copilotStore";
 export function useAnalysis() {
     const { fetchWithAuth } = useObservabilityApi();
     const {
-        setLoading, setRunStatus, setError, setResult, setActiveStep, setStatusMessage
+        setLoading, setRunStatus, setError, setResult, setActiveStep, setStatusMessage,
+        runHistory, setRunHistory, question, service, env, timePreset
     } = useCopilotStore();
 
     const abortRef = useRef<AbortController | null>(null);
@@ -76,6 +77,19 @@ export function useAnalysis() {
                                 setResult(eventData);
                                 setRunStatus("complete");
                                 setStatusMessage(null);
+
+                                // Append to run history
+                                const newRecord = {
+                                    runId: eventData.run_id || Math.random().toString(36).substring(7),
+                                    question,
+                                    service,
+                                    env,
+                                    timeRange: timePreset,
+                                    status: "complete",
+                                    completedAt: new Date().toISOString(),
+                                    result: eventData
+                                };
+                                setRunHistory([...runHistory, newRecord]);
                             } else if (eventType === "error") {
                                 throw new Error(eventData.message || "Analysis failed");
                             }
@@ -97,7 +111,7 @@ export function useAnalysis() {
             setLoading(false);
             abortRef.current = null;
         }
-    }, [fetchWithAuth, setLoading, setRunStatus, setError, setResult, setActiveStep, setStatusMessage]);
+    }, [fetchWithAuth, setLoading, setRunStatus, setError, setResult, setActiveStep, setStatusMessage, runHistory, setRunHistory, question, service, env, timePreset]);
 
     const cancelAnalysis = useCallback(() => {
         if (abortRef.current) abortRef.current.abort();

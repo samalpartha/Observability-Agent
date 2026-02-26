@@ -25,6 +25,7 @@ from agent.tools.tools import (
     tool_search_metrics,
     tool_search_traces,
     tool_reflect_and_critique,  # [NEW]
+    tool_correlate_events,
 )
 from agent.validators import validate_before_propose
 from agent.specialists.visual_agent import tool_physical_health_check
@@ -348,6 +349,18 @@ def run_planner(inputs: PlannerInput) -> PlannerOutput:
     if trace_ids:
         scope["correlated_trace_ids"] = list(trace_ids)
         artifacts.correlated_trace_ids = list(trace_ids)
+        
+    correlation_res = tool_correlate_events(time_range, inputs.service)
+    if progress_callback:
+        progress_callback(correlation_res.summary)
+        
+    for ev in correlation_res.evidence:
+        if ev.get("count", 0) > 0:
+            findings.append({
+                "message": f"CORRELATED TIME WINDOW ({ev['type']}): {ev['count']} occurrences. Samples: {ev['samples']}",
+                "severity": "high" if ev['count'] > 5 else "warning",
+                "source": "correlation_engine"
+            })
 
     # FIX #4: Correlation score = ratio of cross-source matches
     source_types_with_data = sum(1 for c in artifacts.signals_gathered.values() if c > 0)

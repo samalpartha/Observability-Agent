@@ -1,17 +1,14 @@
 # ── Frontend: Node 20 multi-stage ──
-FROM node:20-alpine AS deps
-WORKDIR /app
-COPY package.json package-lock.json* ./
-RUN npm ci --omit=dev
-
 FROM node:20-alpine AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+COPY package.json package-lock.json* ./
+RUN npm ci
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-ARG NEXT_PUBLIC_API_URL=http://localhost:8765
-ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-RUN npm run build
+# Hardcoding for cloud run deployment since build-args are tricky with gcloud run deploy --source
+ENV NEXT_PUBLIC_API_URL=https://observability-backend-365415503294.us-central1.run.app
+# Call next CLI directly to avoid broken .bin/next symlink wrapper
+RUN node node_modules/next/dist/bin/next build
 
 FROM node:20-alpine AS runner
 WORKDIR /app

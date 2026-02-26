@@ -88,14 +88,14 @@ def get_service_health(
     """
     services = [
         {
-            "name": "Auth-Service",
+            "name": "auth-service",
             "instances": 4,
             "instance_health": ["healthy", "healthy", "degraded", "unhealthy"],
             "status": "STABLE",
             "percentage": 99.8,
         },
         {
-            "name": "Cart-Engine",
+            "name": "checkout-service",
             "instances": 8,
             "instance_health": ["healthy"] * 8,
             "status": "OPTIMAL",

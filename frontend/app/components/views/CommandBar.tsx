@@ -18,8 +18,22 @@ export const CommandBar: React.FC<CommandBarProps> = ({ onRun, loading, isListen
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
             onRun();
+        } else if (e.key === "Escape") {
+            setQuestion("");
+            inputRef.current?.blur();
         }
     };
+
+    React.useEffect(() => {
+        const handleGlobalKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                inputRef.current?.focus();
+            }
+        };
+        window.addEventListener("keydown", handleGlobalKeyDown);
+        return () => window.removeEventListener("keydown", handleGlobalKeyDown);
+    }, []);
 
     return (
         <div className="w-full max-w-3xl mx-auto mb-8 relative z-20">

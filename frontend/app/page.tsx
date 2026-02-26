@@ -15,7 +15,7 @@ import { AnalyticsView } from "./components/analytics/AnalyticsView";
 import { Toast } from "./components/Toast";
 import { SavePromptModal } from "./components/SavePromptModal";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import { MenuIcon, XIcon, CogIcon, HistoryIcon, BarChart3Icon } from "./components/Icons";
+import { MenuIcon, XIcon, CogIcon, HistoryIcon, BarChart3Icon, ShareIcon, DownloadIcon, DashboardIcon, BellIcon, ActivityIcon, DocumentIcon } from "./components/Icons";
 
 type UserFlow = {
   id: string;
@@ -60,7 +60,7 @@ const HELP_CATEGORIES: { key: UserFlow["category"]; label: string }[] = [
 ];
 
 function HistoryPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const { runHistory, clearHistory, setResult, setQuestion } = useCopilotStore();
+  const { runHistory, clearHistory, setResult, setQuestion, savedPrompts } = useCopilotStore();
   if (!open) return null;
   return (
     <>
@@ -86,28 +86,72 @@ function HistoryPanel({ open, onClose }: { open: boolean; onClose: () => void })
             </button>
           </div>
         </div>
-        <div className="flex-1 overflow-y-auto p-4 space-y-2">
-          {runHistory.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full gap-3 text-center">
-              <HistoryIcon className="w-10 h-10 text-slate-700" />
-              <p className="text-slate-500 text-sm">No runs yet. Ask a question to get started.</p>
-            </div>
-          ) : (
-            runHistory.slice().reverse().map((run) => (
-              <button
-                key={run.runId}
-                onClick={() => { if (run.result) { setResult(run.result); setQuestion(run.question); onClose(); } }}
-                className="w-full text-left p-3 bg-slate-800/60 hover:bg-slate-800 rounded-xl border border-slate-700/50 hover:border-slate-600 transition-all group"
-              >
-                <p className="text-sm text-slate-200 font-medium line-clamp-2 group-hover:text-white">{run.question}</p>
-                <div className="flex items-center gap-2 mt-1.5">
-                  <span className={`text-xs px-1.5 py-0.5 rounded font-mono ${run.status === 'complete' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'
-                    }`}>{run.status}</span>
-                  <span className="text-xs text-slate-500">{new Date(run.completedAt).toLocaleTimeString()}</span>
-                </div>
-              </button>
-            ))
-          )}
+        <div className="flex-1 overflow-y-auto p-4 space-y-6">
+          {/* Saved Prompts Section */}
+          <div>
+            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+              </svg>
+              Saved Prompts
+            </h3>
+            {savedPrompts.length === 0 ? (
+              <p className="text-slate-600 text-xs italic px-1">No saved prompts yet.</p>
+            ) : (
+              <div className="space-y-2">
+                {savedPrompts.map((p) => (
+                  <div key={p.id} className="p-3 bg-indigo-500/5 border border-indigo-500/10 rounded-xl flex items-center justify-between group">
+                    <div className="flex-1 min-w-0 mr-3">
+                      <p className="text-sm font-medium text-slate-200 truncate">{p.name}</p>
+                      <p className="text-[10px] text-slate-500 truncate">{p.question}</p>
+                    </div>
+                    <button
+                      onClick={() => { setQuestion(p.question); onClose(); }}
+                      className="px-2 py-1 bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-bold rounded shadow-lg shadow-indigo-500/20 opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
+                    >
+                      Run
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Run History Section */}
+          <div>
+            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Recent Runs</h3>
+            {runHistory.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-8 gap-3 text-center">
+                <HistoryIcon className="w-8 h-8 text-slate-800" />
+                <p className="text-slate-600 text-xs italic">No runs yet.</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {runHistory.slice().reverse().map((run) => (
+                  <button
+                    key={run.runId}
+                    onClick={() => { if (run.result) { setResult(run.result); setQuestion(run.question); onClose(); } }}
+                    className="w-full text-left p-3 bg-slate-800/60 hover:bg-slate-800 rounded-xl border border-slate-700/50 hover:border-slate-600 transition-all group"
+                  >
+                    <p className="text-sm text-slate-200 font-medium line-clamp-2 group-hover:text-white">{run.question}</p>
+                    <div className="flex items-center justify-between mt-1.5">
+                      <div className="flex items-center gap-2">
+                        <span className={`text-xs px-1.5 py-0.5 rounded font-mono ${run.status === 'complete' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'
+                          }`}>{run.status}</span>
+                        <span className="text-xs text-slate-500">{new Date(run.completedAt).toLocaleTimeString()}</span>
+                      </div>
+                      <button
+                        className="px-2 py-0.5 bg-slate-700/50 hover:bg-indigo-500 text-slate-400 hover:text-white rounded text-[10px] font-bold transition-all opacity-0 group-hover:opacity-100"
+                        onClick={(e) => { e.stopPropagation(); /* Future: comparison logic */ }}
+                      >
+                        Compare
+                      </button>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>
@@ -213,7 +257,7 @@ export default function Home() {
     question,
     showHistory, setShowHistory,
     mobileMenuOpen, setMobileMenuOpen,
-    setRunHistory, setSavedPrompts,
+    setRunHistory, savedPrompts, setSavedPrompts,
     toast, setToast,
     currentView, setCurrentView
   } = useCopilotStore();
@@ -224,9 +268,9 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true);
-    const history = localStorage.getItem("observability_copilot_run_history");
+    const history = localStorage.getItem("obs_run_history");
     if (history) setRunHistory(JSON.parse(history));
-    const prompts = localStorage.getItem("observability_copilot_saved_prompts");
+    const prompts = localStorage.getItem("obs_saved_prompts");
     if (prompts) setSavedPrompts(JSON.parse(prompts));
   }, [setMounted, setRunHistory, setSavedPrompts]);
 
@@ -240,6 +284,46 @@ export default function Home() {
   const handleRun = () => {
     if (!question.trim()) return;
     runAnalysis({ question, time_range: ["now-24h", "now"] });
+  };
+
+  const handleLogoClick = () => {
+    setCurrentView("copilot");
+    useCopilotStore.getState().setResult(null);
+    useCopilotStore.getState().setQuestion("");
+  };
+
+  const handleExport = () => {
+    if (!result) {
+      setToast("No analysis result to export.");
+      return;
+    }
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(result, null, 2));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", `analysis-${result.run_id.slice(0, 8)}.json`);
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+    setToast("Analysis exported as JSON");
+  };
+
+  const handleShare = () => {
+    if (!result) {
+      setToast("No analysis result to share.");
+      return;
+    }
+    const url = window.location.href + "?run_id=" + result.run_id;
+    navigator.clipboard.writeText(url).then(() => {
+      setToast("Analysis link copied to clipboard!");
+    }).catch(() => {
+      setToast("Failed to copy link.");
+    });
+  };
+
+  const handleSignOut = () => {
+    localStorage.clear();
+    setToast("Signing out...");
+    setTimeout(() => router.replace("/login"), 500);
   };
 
   if (!mounted) return null;
@@ -258,12 +342,15 @@ export default function Home() {
       {/* Navbar */}
       <header className="fixed top-0 w-full bg-slate-900/80 backdrop-blur-md border-b border-slate-800 z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <button
+            onClick={handleLogoClick}
+            className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+          >
             <div className="w-10 h-10 flex items-center justify-center">
               <Image src="/logo.png" alt="Logo" width={40} height={40} priority />
             </div>
             <h1 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">Observability Copilot</h1>
-          </div>
+          </button>
           <div className="hidden md:flex items-center gap-1">
             <button
               onClick={() => setCurrentView(currentView === "analytics" ? "copilot" : "analytics")}
@@ -276,6 +363,7 @@ export default function Home() {
               onClick={() => setShowHistory(!showHistory)}
               className={`p-2 rounded-lg transition-colors ${showHistory ? "bg-indigo-500/20 text-indigo-400" : "hover:bg-slate-800 text-slate-400 hover:text-white"}`}
               title="Run History (⌘H)"
+              aria-label="Run History"
             >
               <HistoryIcon className="w-5 h-5" />
             </button>
@@ -283,15 +371,40 @@ export default function Home() {
               onClick={() => setShowHelp(!showHelp)}
               className={`p-2 rounded-lg text-sm font-bold transition-colors ${showHelp ? "bg-indigo-500/20 text-indigo-400" : "hover:bg-slate-800 text-slate-400 hover:text-white"}`}
               title="Help & Workflows"
+              aria-label="Help"
             >
               ?
+            </button>
+            <button
+              onClick={handleExport}
+              className="p-2 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg transition-colors"
+              title="Export"
+              aria-label="Export"
+            >
+              <DownloadIcon className="w-5 h-5" />
+            </button>
+            <button
+              onClick={handleShare}
+              className="p-2 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg transition-colors"
+              title="Share"
+              aria-label="Share"
+            >
+              <ShareIcon className="w-5 h-5" />
             </button>
             <button
               onClick={() => setShowSettings(!showSettings)}
               className={`p-2 rounded-lg transition-colors ${showSettings ? "bg-indigo-500/20 text-indigo-400" : "hover:bg-slate-800 text-slate-400 hover:text-white"}`}
               title="Settings"
+              aria-label="Settings"
             >
               <CogIcon className="w-5 h-5" />
+            </button>
+            <button
+              onClick={handleSignOut}
+              className="ml-2 px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-red-500/10 hover:text-red-400 text-slate-400 rounded-lg transition-colors border border-slate-700 hover:border-red-500/30"
+              title="Sign Out"
+            >
+              Sign Out
             </button>
           </div>
           <button className="md:hidden p-2 text-slate-400" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -318,18 +431,62 @@ export default function Home() {
             </p>
           </div>
 
-          <CommandBar onRun={handleRun} loading={loading} isListening={isListening} toggleMic={toggleMic} />
+          <div className="w-full relative flex gap-8 items-start">
+            {/* Navigation Sidebar for E2E Flows */}
+            <aside className="hidden lg:flex flex-col gap-2 w-48 shrink-0 sticky top-24">
+              <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-2">Navigation</h3>
+              <button
+                onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                className="flex items-center gap-3 px-3 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all group"
+              >
+                <DashboardIcon className="w-4 h-4 text-slate-500 group-hover:text-indigo-400" />
+                Dashboard
+              </button>
+              <button
+                onClick={() => { useCopilotStore.getState().setQuestion("Show me active alerts for the services and identify the top ones."); }}
+                className="flex items-center gap-3 px-3 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all group"
+              >
+                <BellIcon className="w-4 h-4 text-slate-500 group-hover:text-red-400" />
+                Alerts
+              </button>
+              <button
+                onClick={() => { useCopilotStore.getState().setQuestion("Analyze recent traces to find bottlenecks or spans with errors."); }}
+                className="flex items-center gap-3 px-3 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all group"
+              >
+                <ActivityIcon className="w-4 h-4 text-slate-500 group-hover:text-emerald-400" />
+                Traces
+              </button>
+              <button
+                onClick={() => { useCopilotStore.getState().setQuestion("Search the latest logs for error patterns or exceptions."); }}
+                className="flex items-center gap-3 px-3 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all group"
+              >
+                <DocumentIcon className="w-4 h-4 text-slate-500 group-hover:text-blue-400" />
+                Logs
+              </button>
+              <button
+                onClick={() => { useCopilotStore.getState().setQuestion("Open current metrics dashboard to check CPU, Memory and IO."); }}
+                className="flex items-center gap-3 px-3 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all group"
+              >
+                <BarChart3Icon className="w-4 h-4 text-slate-500 group-hover:text-amber-400" />
+                Metrics
+              </button>
+            </aside>
 
-          <div className="w-full">
-            {result ? (
-              <ErrorBoundary label="ResultsView">
-                <ResultsView />
-              </ErrorBoundary>
-            ) : (
-              <ErrorBoundary label="DashboardView">
-                <DashboardView />
-              </ErrorBoundary>
-            )}
+            <div className="flex-1 min-w-0 flex flex-col items-center">
+              <CommandBar onRun={handleRun} loading={loading} isListening={isListening} toggleMic={toggleMic} />
+
+              <div className="w-full max-w-4xl">
+                {result ? (
+                  <ErrorBoundary label="ResultsView">
+                    <ResultsView />
+                  </ErrorBoundary>
+                ) : (
+                  <ErrorBoundary label="DashboardView">
+                    <DashboardView />
+                  </ErrorBoundary>
+                )}
+              </div>
+            </div>
           </div>
         </main>
       )}
@@ -362,8 +519,15 @@ export default function Home() {
         questionPreview={question}
         onCancel={() => setShowSaveModal(false)}
         onConfirm={() => {
+          const newPrompt = {
+            id: Math.random().toString(36).substring(7),
+            name: promptName,
+            question
+          };
+          setSavedPrompts([...savedPrompts, newPrompt]);
           setShowSaveModal(false);
           setPromptName("");
+          setToast("Prompt saved successfully!");
         }}
       />
     </div>

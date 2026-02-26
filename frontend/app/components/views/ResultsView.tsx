@@ -58,7 +58,7 @@ export const ResultsView: React.FC = () => {
                             className={`px-6 py-4 text-sm font-medium transition-colors border-b-2 whitespace-nowrap capitalize ${resultTab === tab ? "border-indigo-500 text-white" : "border-transparent text-slate-400 hover:text-slate-200"
                                 }`}
                         >
-                            {tab}
+                            {tab.charAt(0).toUpperCase() + tab.slice(1)}
                         </button>
                     ))}
                 </div>
@@ -238,7 +238,7 @@ const CaseCreationSection: React.FC = () => {
                         : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
                         }`}
                 >
-                    {createCaseLoading ? "Creating..." : "Create Case"}
+                    {createCaseLoading ? "Creating..." : "Create Kibana Case"}
                 </button>
             </div>
             {createCaseError && (

@@ -15,6 +15,7 @@ COPY agent/ agent/
 COPY api/ api/
 COPY app/ app/
 COPY elastic/ elastic/
+COPY retrieval/ retrieval/
 COPY .env* ./
 
 EXPOSE 8765

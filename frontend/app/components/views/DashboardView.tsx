@@ -9,6 +9,9 @@ import {
     SearchIcon,
     SparklesIcon,
 } from "../Icons";
+import { LogAnomalies } from "../analytics/LogAnomalies";
+import { PredictiveForecast } from "../analytics/PredictiveForecast";
+
 
 interface Investigation {
     id: string;
@@ -212,11 +215,19 @@ export function DashboardView() {
                                             {svc.instances} instances
                                             {isDegraded && <span className="ml-2 text-amber-400">→ Click to investigate</span>}
                                         </div>
+
+                                        {/* AIOps Predictive Forecast */}
+                                        <PredictiveForecast service={svc.name} />
                                     </div>
                                 );
                             })}
                         </div>
                     </section>
+
+                    {/* AIOps Log Anomalies */}
+                    <div className="mt-8">
+                        <LogAnomalies />
+                    </div>
 
                 </div>
 

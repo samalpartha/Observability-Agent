@@ -53,8 +53,8 @@ export async function loginViaAPI(page: Page, request: APIRequestContext) {
   await page.goto("/");
   // Clear any stale run history to prevent auto-run
   await page.evaluate(() => {
-    localStorage.removeItem("observability_copilot_run_history");
-    localStorage.removeItem("observability_copilot_saved_prompts");
+    localStorage.removeItem("obs_run_history");
+    localStorage.removeItem("obs_saved_prompts");
   });
   await injectAuth(page, token);
   // Reload so the app reads the token

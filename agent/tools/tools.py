@@ -61,7 +61,7 @@ def tool_find_changes(time_range: tuple[str, str], service: Optional[str]) -> To
     gte, lte = time_range
     must = [{"range": {"@timestamp": {"gte": gte, "lte": lte}}}]
     if service:
-        must.append({"term": {"service.name": service}})
+        must.append({"match": {"service.name": service}})
     body = {"query": {"bool": {"must": must}}, "size": 50, "sort": [{"@timestamp": "desc"}]}
     try:
         r = _safe_search(client, "obs-logs-current", body, "es_changes")
@@ -236,6 +236,52 @@ def tool_find_similar_incidents(question: str, filters: dict[str, Any]) -> ToolR
             summary=f"Incident search failed: {type(e).__name__}",
             evidence=[],
             raw_payload={"question": question[:100]},
+            error=str(e),
+        )
+
+
+def tool_correlate_events(time_range: tuple[str, str], service: str) -> ToolResult:
+    """Correlate logs, traces, and metrics around a specific time range for a service."""
+    client = _get_client()
+    gte, lte = time_range
+    must = [
+        {"range": {"@timestamp": {"gte": gte, "lte": lte}}},
+        {"term": {"service.name": service}}
+    ]
+
+    try:
+        # 1. Fetch error logs
+        log_body = {"query": {"bool": {"must": must + [{"terms": {"log.level": ["ERROR", "WARN"]}}]}}, "size": 10, "sort": [{"@timestamp": "desc"}]}
+        log_res = _safe_search(client, "obs-logs-current", log_body, "es_logs")
+        logs = [h["_source"] for h in log_res.get("hits", {}).get("hits", [])]
+
+        # 2. Fetch failed traces
+        trace_body = {"query": {"bool": {"must": must + [{"term": {"event.outcome": "failure"}}]}}, "size": 10, "sort": [{"@timestamp": "desc"}]}
+        trace_res = _safe_search(client, "obs-traces-current", trace_body, "es_traces")
+        traces = [h["_source"] for h in trace_res.get("hits", {}).get("hits", [])]
+
+        # 3. Fetch anomalous metrics (e.g., high memory/cpu)
+        metric_body = {"query": {"bool": {"must": must}}, "size": 20, "sort": [{"@timestamp": "desc"}]}
+        metric_res = _safe_search(client, "obs-metrics-current", metric_body, "es_metrics")
+        metrics = [h["_source"] for h in metric_res.get("hits", {}).get("hits", [])]
+
+        summary = f"Correlated {len(logs)} error/warn logs, {len(traces)} failed traces, and recent metric points for {service} within window."
+        evidence = [
+            {"type": "logs", "count": len(logs), "samples": [l.get("message") for l in logs[:3]]},
+            {"type": "traces", "count": len(traces), "samples": [t.get("message") for t in traces[:3]]}
+        ]
+        
+        return ToolResult(
+            summary=summary, 
+            evidence=evidence,
+            raw_payload={"time_range": time_range, "service": service}
+        )
+    except Exception as e:
+        logger.error(f"tool_correlate_events failed: {e}")
+        return ToolResult(
+            summary=f"Event correlation failed: {type(e).__name__}",
+            evidence=[],
+            raw_payload={"time_range": time_range, "service": service},
             error=str(e),
         )
 
