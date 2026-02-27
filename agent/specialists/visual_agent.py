@@ -57,6 +57,11 @@ class VisualSpecialist:
         Captures a frame and runs analysis. 
         Note: Supports headless environments by returning simulation if no camera found.
         """
+        # In Cloud Run or when explicitly disabled, do not attempt to access physical camera
+        if os.environ.get("K_SERVICE") or os.environ.get("DISABLE_OPENCV", "false").lower() == "true":
+            logger.info("Cloud Run or DISABLE_OPENCV detected. Skipping physical camera access.")
+            return self._simulate_check()
+            
         try:
             cap = cv2.VideoCapture(self.camera_id)
             if not cap.isOpened():
