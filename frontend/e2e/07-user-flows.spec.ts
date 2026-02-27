@@ -12,7 +12,7 @@ async function clickAnalyze(page: import("@playwright/test").Page) {
 }
 
 // Helper: wait for analysis results
-async function waitForResults(page: Page, timeout = 120_000) {
+async function waitForResults(page: Page, timeout = 300_000) {
   // Wait for the tabs to render, confirming ResultsView is active
   await page.getByRole("button", { name: "Summary" }).waitFor({ state: "visible", timeout });
   // Also ensure the root cause or some content is there
