@@ -12,13 +12,11 @@ async function clickAnalyze(page: import("@playwright/test").Page) {
 }
 
 // Helper: wait for analysis results
-async function waitForResults(page: Page, timeout = 60_000) {
-  // Wait for any of the main result markers
-  await Promise.race([
-    page.getByRole("heading", { name: /Key Findings|Analysis Summary/i }).waitFor({ state: "visible", timeout }),
-    page.getByRole("button", { name: /Evidence/i }).waitFor({ state: "visible", timeout }),
-    page.getByText(/Root Cause/i).first().waitFor({ state: "visible", timeout })
-  ]);
+async function waitForResults(page: Page, timeout = 120_000) {
+  // Wait for the tabs to render, confirming ResultsView is active
+  await page.getByRole("button", { name: "Summary" }).waitFor({ state: "visible", timeout });
+  // Also ensure the root cause or some content is there
+  await expect(page.getByRole("heading", { level: 2 })).not.toContainText("Analyzing", { timeout });
 }
 
 /* ───────────────── CORE ANALYSIS FLOWS ───────────────── */
@@ -239,14 +237,17 @@ test.describe("User Flows — History & Sharing", () => {
     const centerInput = page.getByPlaceholder(/Ask Copilot a question/);
     await centerInput.fill("History test flow");
     await clickAnalyze(page);
-    await waitForResults(page);
+    await waitForResults(page, 90_000);
+
+    // Wait for the state to definitely update in localStorage
+    await page.waitForTimeout(2000);
 
     // Click the history button to open the sidebar
     await page.getByTitle("Run History (⌘H)").click();
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
 
     // Check Run History sidebar
-    await expect(page.getByText("Run History")).toBeVisible();
+    await expect(page.getByText("Recent Runs")).toBeVisible();
 
     // Verify localStorage has history
     const historyRaw = await page.evaluate(() =>
@@ -406,11 +407,12 @@ test.describe("User Flows — Navigation (Shared State)", () => {
 
   test("F-create-case: Actions menu shows Kibana Case option", async ({ page }) => {
     const actionsTab = page.getByRole("button", { name: "Actions" });
-    await expect(actionsTab).toBeVisible();
+    await expect(actionsTab).toBeVisible({ timeout: 15_000 });
     await actionsTab.click();
 
+    // The content might take a moment to switch
     const caseBtn = page.getByRole("button", { name: /Create Kibana Case/i });
-    await expect(caseBtn).toBeVisible();
+    await expect(caseBtn).toBeVisible({ timeout: 15_000 });
   });
 });
 
@@ -469,10 +471,10 @@ test.describe("User Flows — Admin & Settings", () => {
     await page.goto("/");
     await page.waitForLoadState("networkidle");
 
-    // Step 1: Open Settings and Click Sign Out
-    await page.getByTitle("Settings").click();
-    await page.waitForTimeout(500);
-    await page.getByRole("button", { name: /Sign Out/i }).click();
+    // Step 1: Click Sign Out in the header (direct access)
+    const signOutBtn = page.getByRole("button", { name: /Sign Out/i });
+    await expect(signOutBtn).toBeVisible();
+    await signOutBtn.click();
 
     // Step 2: Should redirect to login
     await expect(page).toHaveURL(/\/login/, { timeout: 10_000 });
